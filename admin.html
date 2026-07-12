@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Find the Corgi 🐾</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --bg-card: #1a1d27;
+      --bg-card2: #22263a;
+      --border: rgba(255,255,255,0.07);
+      --text: #e8eaf0;
+      --muted: #6c7a94;
+      --accent: #ff7b90;
+      --accent2: #4ea8de;
+      --green: #06d6a0;
+      --yellow: #ffd166;
+      --red: #ef233c;
+      --radius: 16px;
+      --font-title: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP NAV ─────────────────────────────────── */
+    .admin-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 28px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-brand .logo-emoji { font-size: 28px; }
+    .admin-brand h1 {
+      font-family: var(--font-title);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .admin-brand .badge {
+      background: rgba(255,123,144,0.15);
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,123,144,0.3);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .nav-actions { display: flex; gap: 10px; }
+    .nav-btn {
+      font-family: var(--font-title);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .nav-btn-secondary {
+      background: var(--bg-card2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .nav-btn-secondary:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .nav-btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 4px 14px rgba(255,123,144,0.35);
+    }
+    .nav-btn-primary:hover {
+      background: #ff5c77;
+      transform: translateY(-1px);
+    }
+
+    /* ── STATS BAR ───────────────────────────────── */
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      padding: 16px 28px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+    .stat-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 16px;
+      white-space: nowrap;
+    }
+    .stat-chip .val {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent2);
+    }
+    .stat-chip .lbl {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── MAIN CONTENT ────────────────────────────── */
+    .admin-main {
+      flex: 1;
+      padding: 28px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .section-header h2 {
+      font-family: var(--font-title);
+      font-size: 20px;
+      font-weight: 800;
+    }
+    .section-header p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── SCENE GRID ──────────────────────────────── */
+    .scenes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .admin-scene-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all 0.25s ease;
+    }
+    .admin-scene-card:hover {
+      border-color: rgba(255,123,144,0.4);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+      transform: translateY(-3px);
+    }
+
+    .scene-img-wrapper {
+      position: relative;
+      height: 160px;
+      background: #0a0c14;
+      overflow: hidden;
+    }
+    .scene-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .admin-scene-card:hover .scene-img-wrapper img {
+      transform: scale(1.04);
+    }
+    .scene-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .scene-img-wrapper:hover .scene-img-overlay {
+      opacity: 1;
+    }
+    .upload-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      color: white;
+      font-family: var(--font-title);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      border: 2px solid rgba(255,255,255,0.3);
+      transition: all 0.2s ease;
+    }
+    .upload-label:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .upload-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(6,214,160,0.9);
+      color: #0a0c14;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: none;
+    }
+    .upload-badge.visible { display: block; }
+
+    .scene-card-info {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .scene-name {
+      font-family: var(--font-title);
+      font-size: 16px;
+      font-weight: 800;
+    }
+    .scene-name-th {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .scene-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .meta-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+    }
+    .meta-badge.words {
+      background: rgba(78,168,222,0.12);
+      color: var(--accent2);
+      border-color: rgba(78,168,222,0.25);
+    }
+    .meta-badge.hard {
+      background: rgba(255,123,144,0.12);
+      color: var(--accent);
+      border-color: rgba(255,123,144,0.25);
+    }
+    .meta-badge.easy {
+      background: rgba(6,214,160,0.12);
+      color: var(--green);
+      border-color: rgba(6,214,160,0.25);
+    }
+
+    .scene-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .action-btn {
+      flex: 1;
+      font-family: var(--font-title);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .action-btn.calibrate {
+      background: rgba(255,209,102,0.1);
+      color: var(--yellow);
+      border: 1px solid rgba(255,209,102,0.25);
+    }
+    .action-btn.calibrate:hover {
+      background: var(--yellow);
+      color: #0f1117;
+    }
+    .action-btn.reset {
+      background: rgba(239,35,60,0.1);
+      color: #ff6b7a;
+      border: 1px solid rgba(239,35,60,0.2);
+    }
+    .action-btn.reset:hover {
+      background: var(--red);
+      color: white;
+    }
+
+    /* ── TOAST ───────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--bg-card2);
+      color: var(--text);
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      z-index: 9999;
+      white-space: nowrap;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── DRAG-OVER HIGHLIGHT ─────────────────────── */
+    .admin-scene-card.drag-over {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(78,168,222,0.35);
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────── */
+    @media (max-width: 600px) {
+      .admin-nav { padding: 12px 16px; }
+      .admin-main { padding: 16px; }
+      .stats-bar { padding: 12px 16px; }
+      .scenes-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .admin-brand h1 { font-size: 16px; }
+      .nav-actions .nav-btn span:not(:first-child) { display: none; }
+    }
+    @media (max-width: 400px) {
+      .scenes-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── TOP NAV ── -->
+  <nav class="admin-nav">
+    <div class="admin-brand">
+      <span class="logo-emoji">🐾</span>
+      <div>
+        <h1>Find the Corgi</h1>
+      </div>
+      <span class="badge">Admin</span>
+    </div>
+    <div class="nav-actions">
+      <a href="./calibrate.html" class="nav-btn nav-btn-secondary">🎯 Calibrate Pins</a>
+      <a href="./index.html" class="nav-btn nav-btn-primary">← Back to Game</a>
+    </div>
+  </nav>
+
+  <!-- ── STATS BAR ── -->
+  <div class="stats-bar" id="stats-bar">
+    <!-- injected by JS -->
+  </div>
+
+  <!-- ── REACT DASHBOARD ROOT ── -->
+  <div id="react-admin-dashboard"></div>
+
+  <!-- ── MAIN ── -->
+  <main class="admin-main">
+    <div class="section-header">
+      <div>
+        <h2>User Management Dashboard</h2>
+        <p>View users, guest locations (จังหวัด), and block access.</p>
+      </div>
+    </div>
+    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 48px;">
+      <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+          <tr style="background: var(--bg-card2); border-bottom: 1px solid var(--border);">
+            <th style="padding: 16px; font-weight: 600; color: var(--muted);">Name / ID</th>
+            <th style="padding: 16px; font-weight: 600; color: var(--muted);">Type</th>
+            <th style="padding: 16px; font-weight: 600; color: var(--muted);">Province</th>
+            <th style="padding: 16px; font-weight: 600; color: var(--muted);">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="users-table-body">
+          <tr><td colspan="4" style="padding: 16px; text-align: center; color: var(--muted);">Loading users...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-header">
+      <div>
+        <h2>Scene Image Manager</h2>
+        <p>Hover over a scene to upload a new image. Drag & drop also works.</p>
+      </div>
+    </div>
+    <div class="scenes-grid" id="scenes-grid"></div>
+  </main>
+
+  <!-- ── TOAST ── -->
+  <div id="toast"></div>
+
+
+  <script type="module">
+    import { ALL_SCENES } from './scenes.js';
+    import { db, auth, ADMIN_EMAILS } from './firebase-init.js';
+    import { onAuthStateChanged } from 'firebase/auth';
+    import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user || !user.email || !ADMIN_EMAILS.includes(user.email)) {
+        alert("Unauthorized access. Only admins can view this page.");
+        window.location.href = "/index.html";
+      } else {
+        fetchUsers();
+      }
+    });
+
+    async function fetchUsers() {
+      const tbody = document.getElementById('users-table-body');
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        tbody.innerHTML = '';
+        if (querySnapshot.empty) {
+          tbody.innerHTML = '<tr><td colspan="4" style="padding: 16px; text-align: center; color: var(--muted);">No users found.</td></tr>';
+          return;
+        }
+        querySnapshot.forEach((docSnap) => {
+          const user = docSnap.data();
+          const uid = docSnap.id;
+          const tr = document.createElement('tr');
+          tr.style.borderBottom = '1px solid var(--border)';
+          
+          tr.innerHTML = `
+            <td style="padding: 16px;">
+              <div style="font-weight: 600;">${user.displayName || 'Guest'}</div>
+              <div style="font-size: 12px; color: var(--muted);">${user.email || uid}</div>
+            </td>
+            <td style="padding: 16px;">
+              ${user.isGuest ? '<span style="background: rgba(255,209,102,0.1); color: var(--yellow); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">GUEST</span>' : '<span style="background: rgba(78,168,222,0.1); color: var(--accent2); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">USER</span>'}
+            </td>
+            <td style="padding: 16px; color: ${user.province && user.province !== 'Unknown' ? 'var(--green)' : 'var(--text)'}">${user.province || 'Unknown'}</td>
+            <td style="padding: 16px;">
+              <button class="action-btn ${user.blocked ? 'calibrate' : 'reset'}" style="cursor:pointer;" id="btn-block-${uid}">
+                ${user.blocked ? '🟢 Unblock' : '🔴 Block'}
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+
+          const blockBtn = document.getElementById(`btn-block-${uid}`);
+          if (blockBtn) {
+            blockBtn.addEventListener('click', async () => {
+              try {
+                await updateDoc(doc(db, "users", uid), {
+                  blocked: !user.blocked
+                });
+                showToast(`User ${user.blocked ? 'unblocked' : 'blocked'} successfully`);
+                fetchUsers();
+              } catch (e) {
+                console.error(e);
+                showToast('Error updating user');
+              }
+            });
+          }
+        });
+      } catch (e) {
+        console.error(e);
+        tbody.innerHTML = '<tr><td colspan="4" style="padding: 16px; text-align: center; color: var(--red);">Error loading users.</td></tr>';
+      }
+    }
+
+    /* ── helpers ── */
+    function getImgSrc(scene) {
+      return localStorage.getItem('image_override_' + scene.id) || scene.image;
+    }
+
+    function hasOverride(sceneId) {
+      return !!localStorage.getItem('image_override_' + sceneId);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    /* ── stats bar ── */
+    function renderStats() {
+      const bar = document.getElementById('stats-bar');
+      const totalScenes = ALL_SCENES.length;
+      const overrides = ALL_SCENES.filter(s => hasOverride(s.id)).length;
+      const hardScenes = ALL_SCENES.filter(s => s.corgi.radius <= 3).length;
+      const totalWords = ALL_SCENES.reduce((a, s) => a + s.vocabulary.length, 0);
+
+      bar.innerHTML = `
+        <div class="stat-chip"><span class="val">${totalScenes}</span><span class="lbl">Scenes</span></div>
+        <div class="stat-chip"><span class="val">${totalWords}</span><span class="lbl">Total Words</span></div>
+        <div class="stat-chip"><span class="val">${overrides}/${totalScenes}</span><span class="lbl">Custom Images</span></div>
+        <div class="stat-chip"><span class="val">${hardScenes}</span><span class="lbl">Hard Scenes 🔴</span></div>
+      `;
+    }
+
+    /* ── image upload handler ── */
+    function handleFile(file, scene, imgEl, badgeEl) {
+      if (!file || !file.type.startsWith('image/')) {
+        showToast('⚠️ Please select an image file.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        localStorage.setItem('image_override_' + scene.id, ev.target.result);
+        imgEl.src = ev.target.result;
+        badgeEl.classList.add('visible');
+        showToast(`✅ Image updated for "${scene.nameEn}"`);
+        renderStats();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    /* ── reset image ── */
+    function resetImage(sceneId, imgEl, badgeEl) {
+      localStorage.removeItem('image_override_' + sceneId);
+      const scene = ALL_SCENES.find(s => s.id === sceneId);
+      imgEl.src = scene.image;
+      badgeEl.classList.remove('visible');
+      showToast('🗑️ Reverted to default image');
+      renderStats();
+    }
+
+    /* ── render scene cards ── */
+    function renderScenes() {
+      const grid = document.getElementById('scenes-grid');
+      grid.innerHTML = '';
+
+      ALL_SCENES.forEach(scene => {
+        const imgSrc = getImgSrc(scene);
+        const overrideActive = hasOverride(scene.id);
+        const isHard = scene.corgi.radius <= 3;
+
+        const card = document.createElement('div');
+        card.className = 'admin-scene-card';
+        card.innerHTML = `
+          <div class="scene-img-wrapper" id="wrap-${scene.id}">
+            <img src="${imgSrc}" alt="${scene.nameEn}" id="img-${scene.id}">
+            <div class="scene-img-overlay">
+              <label class="upload-label" for="file-${scene.id}">📸 Upload</label>
+              <input type="file" id="file-${scene.id}" accept="image/*" style="display:none">
+            </div>
+            <span class="upload-badge ${overrideActive ? 'visible' : ''}" id="badge-${scene.id}">CUSTOM</span>
+          </div>
+          <div class="scene-card-info">
+            <div>
+              <div class="scene-name">${scene.nameEn}</div>
+              <div class="scene-name-th">${scene.nameTh}</div>
+            </div>
+            <div class="scene-meta">
+              <span class="meta-badge words">📖 ${scene.vocabulary.length} words</span>
+              <span class="meta-badge ${isHard ? 'hard' : 'easy'}">${isHard ? '🔴 Hard Corgi' : '🟢 Easy Corgi'}</span>
+            </div>
+            <div class="scene-actions">
+              <a href="./calibrate.html?scene=${scene.id}" class="action-btn calibrate">🎯 Calibrate</a>
+              <button class="action-btn reset" id="reset-${scene.id}">🗑️ Reset</button>
+            </div>
+          </div>
+        `;
+
+        const imgEl  = card.querySelector(`#img-${scene.id}`);
+        const badgeEl = card.querySelector(`#badge-${scene.id}`);
+        const fileInput = card.querySelector(`#file-${scene.id}`);
+        const resetBtn  = card.querySelector(`#reset-${scene.id}`);
+        const wrapper   = card.querySelector(`#wrap-${scene.id}`);
+
+        fileInput.addEventListener('change', (e) => handleFile(e.target.files[0], scene, imgEl, badgeEl));
+        resetBtn.addEventListener('click', () => resetImage(scene.id, imgEl, badgeEl));
+
+        // drag & drop
+        wrapper.addEventListener('dragover', (e) => { e.preventDefault(); card.classList.add('drag-over'); });
+        wrapper.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+        wrapper.addEventListener('drop', (e) => {
+          e.preventDefault();
+          card.classList.remove('drag-over');
+          const file = e.dataTransfer.files[0];
+          handleFile(file, scene, imgEl, badgeEl);
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    renderStats();
+    renderScenes();
+  </script>
+</body>
+</html>

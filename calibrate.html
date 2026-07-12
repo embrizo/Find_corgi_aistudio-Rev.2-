@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎯 Hotspot Calibrator - Find the Corgi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #ff7b90;
+      --secondary: #4ea8de;
+      --accent: #ffd166;
+      --success: #06d6a0;
+      --dark: #2b2d42;
+      --muted: #6c757d;
+      --bg: #f0f4f8;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      background: var(--dark);
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    .top-bar h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .top-bar p { font-size: 11px; color: #adb5bd; }
+
+    .bar-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+    .btn {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      border: none;
+      border-radius: 10px;
+      padding: 7px 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-save   { background: var(--success); color: white; }
+    .btn-save:hover   { background: #04b088; transform: translateY(-1px); }
+    .btn-reset  { background: #ef233c; color: white; }
+    .btn-reset:hover  { background: #d90429; }
+    .btn-play   { background: var(--secondary); color: white; text-decoration: none; }
+    .btn-play:hover   { background: #3a90c2; }
+    .btn-copy   { background: var(--accent); color: var(--dark); }
+    .btn-copy:hover   { background: #f5c800; }
+    .btn-zoom   { background: rgba(255,255,255,0.1); color: white; width: 32px; height: 32px; padding: 0; font-size: 16px; border-radius: 8px; }
+    .btn-zoom:hover { background: rgba(255,255,255,0.2); }
+
+    .select-scene {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      outline: none;
+      cursor: pointer;
+    }
+    .select-scene option {
+      background: var(--dark);
+      color: white;
+    }
+
+    /* ── BODY LAYOUT ── */
+    .workspace {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      background: var(--white);
+      border-right: 2px solid rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      background: #f8f9fa;
+    }
+    .sidebar-header h3 { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; color: var(--dark); }
+    .sidebar-header p  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .word-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .word-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: var(--bg);
+      transition: all 0.15s;
+    }
+    .word-item:hover         { background: #e8f5fd; border-color: var(--secondary); }
+    .word-item.selected      { background: #fff3cd; border-color: var(--accent); }
+    .word-item.corgi-item    { background: #ffeef0; }
+    .word-item.corgi-item:hover { border-color: var(--primary); }
+    .word-item.corgi-item.selected { background: #ffced6; border-color: var(--primary); }
+
+    .word-emoji { font-size: 18px; width: 24px; text-align: center; }
+    .word-label { flex: 1; min-width: 0; }
+    .word-label .en { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 12px; }
+    .word-label .th { font-size: 10px; color: var(--muted); }
+    .word-coords {
+      font-family: monospace;
+      font-size: 9px;
+      color: var(--muted);
+      background: #f0f4f8;
+      border-radius: 5px;
+      padding: 2px 5px;
+      white-space: nowrap;
+    }
+
+    /* ── MAP AREA ── */
+    .map-area {
+      flex: 1;
+      background: #c9d6df;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .zoom-controls {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 10;
+    }
+
+    .map-viewport {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      cursor: crosshair;
+    }
+
+    .map-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1000px;
+      height: 1000px;
+      transform-origin: 0 0;
+      will-change: transform;
+    }
+
+    .map-wrapper img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ── HOTSPOT PINS ── */
+    .hotspot-pin {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: grab;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      user-select: none;
+      transition: filter 0.15s;
+    }
+    .hotspot-pin:active { cursor: grabbing; }
+
+    .pin-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 209, 102, 0.85);
+      border: 3px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      transition: transform 0.15s, background 0.15s;
+    }
+    .hotspot-pin:hover .pin-circle,
+    .hotspot-pin.dragging .pin-circle {
+      transform: scale(1.25);
+      background: var(--accent);
+    }
+    .hotspot-pin.selected .pin-circle {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 4px rgba(78,168,222,0.3), 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .hotspot-pin.corgi-pin .pin-circle {
+      background: rgba(255,123,144,0.85);
+      border-color: var(--primary);
+    }
+    .hotspot-pin.corgi-pin.selected .pin-circle {
+      background: var(--primary);
+      box-shadow: 0 0 0 4px rgba(255,123,144,0.3), 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .pin-label {
+      background: rgba(43,45,66,0.9);
+      color: white;
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 5px;
+      margin-top: 3px;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .coord-tooltip {
+      position: absolute;
+      background: rgba(43,45,66,0.9);
+      color: var(--accent);
+      font-family: monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      pointer-events: none;
+      z-index: 20;
+      white-space: nowrap;
+      display: none;
+    }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      background: var(--dark);
+      color: #adb5bd;
+      font-size: 11px;
+      padding: 6px 16px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .status-bar span { white-space: nowrap; }
+    .status-bar .selected-info { color: var(--accent); font-weight: 600; }
+
+    /* ── OUTPUT MODAL ── */
+    .output-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      display: none;
+    }
+    .output-modal.visible { display: flex; }
+    .output-box {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 24px;
+      width: 680px;
+      max-width: 95vw;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .output-box h3 { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 800; }
+    .output-box p  { font-size: 12px; color: var(--muted); }
+    .output-box textarea {
+      flex: 1;
+      min-height: 300px;
+      font-family: monospace;
+      font-size: 11px;
+      border: 2px solid #dee2e6;
+      border-radius: 10px;
+      padding: 12px;
+      resize: vertical;
+      color: var(--dark);
+      background: #f8f9fa;
+    }
+    .output-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .btn-close-modal { background: #dee2e6; color: var(--dark); }
+    .btn-close-modal:hover { background: #c9cdd1; }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<div class="top-bar">
+  <div style="display: flex; align-items: center; gap: 20px;">
+    <div>
+      <h1>🎯 Hotspot Calibrator</h1>
+      <p>Drag pins onto correct objects, then click Save.</p>
+    </div>
+    
+    <!-- Scene Selector dropdown -->
+    <select id="scene-selector" class="select-scene">
+      <option value="street">The Street (ถนน)</option>
+      <option value="farm">The Farm (ฟาร์ม)</option>
+      <option value="beach">The Beach (ชายหาด)</option>
+      <option value="kitchen">The Kitchen (ห้องครัว)</option>
+      <option value="classroom">The Classroom (ห้องเรียน)</option>
+      <option value="park">The Park (สวนสาธารณะ)</option>
+      <option value="theme_park">Theme Park (สวนสนุก)</option>
+      <option value="supermarket">Supermarket (ซูเปอร์มาร์เก็ต)</option>
+      <option value="hotel">Hotel (โรงแรม)</option>
+      <option value="hospital">Hospital (โรงพยาบาล)</option>
+      <option value="theater">Theater (โรงละคร)</option>
+      <option value="airplane">On the Airplane (บนเครื่องบิน)</option>
+      <option value="ship">The Ship (เรือเดินสมุทร)</option>
+      <option value="underwater">Underwater (ใต้ท้องทะเล)</option>
+      <option value="office">Office (ที่ทำงาน)</option>
+      <option value="canteen">Canteen (โรงอาหาร)</option>
+      <option value="police_station">Police Station (สถานีตำรวจ)</option>
+      <option value="airport">Airport (สนามบิน)</option>
+    </select>
+  </div>
+  <div class="bar-actions">
+    <button class="btn btn-zoom" id="btn-zi" title="Zoom In">+</button>
+    <button class="btn btn-zoom" id="btn-zo" title="Zoom Out">−</button>
+    <button class="btn btn-zoom" id="btn-zr" title="Reset">⟲</button>
+    <button class="btn btn-save"  id="btn-save">💾 Save to Game</button>
+    <button class="btn btn-copy"  id="btn-copy">📋 Export Code</button>
+    <button class="btn btn-reset" id="btn-reset-pos">↺ Reset Positions</button>
+    <a href="./index.html" class="btn btn-play">▶ Back to Game</a>
+  </div>
+</div>
+
+<!-- ── WORKSPACE ── -->
+<div class="workspace">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3 id="sidebar-title">📍 Word Pins</h3>
+      <p>Click a word to select, then click the map to move its pin</p>
+    </div>
+    <div class="word-list" id="word-list"></div>
+  </aside>
+
+  <div class="map-area">
+    <div class="zoom-controls">
+      <button class="btn btn-zoom" id="btn-zi2">+</button>
+      <button class="btn btn-zoom" id="btn-zo2">−</button>
+    </div>
+
+    <div class="map-viewport" id="map-viewport">
+      <div class="map-wrapper" id="map-wrapper">
+        <img src="assets/street_scene.png" alt="Scene Illustration" id="scene-img" onerror="this.style.display='none'; document.getElementById('scene-img-fallback').style.display='flex';">
+        <div id="scene-img-fallback" style="display: none; width: 1000px; height: 1000px; background-color: #cbd5e1; border: 4px dashed #94a3b8; border-radius: 24px; align-items: center; justify-content: center; flex-direction: column; color: #475569; font-size: 24px; font-weight: bold; font-family: 'Outfit', sans-serif;">
+          <span style="font-size: 64px; margin-bottom: 16px;">🖼️</span>
+          <span id="scene-img-fallback-text">Scene Image Missing</span>
+        </div>
+        <div id="pins-container"></div>
+      </div>
+    </div>
+
+    <div class="coord-tooltip" id="coord-tooltip"></div>
+  </div>
+</div>
+
+<!-- ── STATUS BAR ── -->
+<div class="status-bar">
+  <span id="status-cursor">Cursor: —</span>
+  <span id="status-selected" class="selected-info">Click a word to select it, then drag its pin</span>
+  <span id="status-zoom">Zoom: 100%</span>
+</div>
+
+<!-- ── OUTPUT MODAL ── -->
+<div class="output-modal" id="output-modal">
+  <div class="output-box">
+    <h3 id="output-title">📋 Export scene coordinates</h3>
+    <p>Copy the vocabulary array below and replace it in the active scene object in <strong>app.js</strong>.</p>
+    <textarea id="output-textarea" readonly></textarea>
+    <div class="output-actions">
+      <button class="btn btn-copy" id="btn-copy-text">Copy to Clipboard</button>
+      <button class="btn btn-close-modal" id="btn-close-output">Close</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { ALL_SCENES } from './scenes.js';
+
+// Map scenes dynamically from ALL_SCENES loaded from scenes.js
+const SCENES = {};
+ALL_SCENES.forEach(s => {
+  SCENES[s.id] = s;
+});
+
+let activeSceneId = "street";
+let activeScene   = null;
+let vocab = [];
+let corgi = {};
+
+let selectedId  = null;
+let mapTx = 0, mapTy = 0, mapScale = 1.0;
+let isPanning = false, panSX = 0, panSY = 0, panTx0 = 0, panTy0 = 0;
+let pinDragId  = null;
+
+const MAP_SIZE = 1000;
+
+// Load positions for the currently selected scene
+function loadSceneData(sceneId) {
+  activeSceneId = sceneId;
+  const baseScene = SCENES[sceneId];
+  
+  // Try to load overrides from localStorage
+  const savedVocab = localStorage.getItem("hotspot_override_vocab_" + sceneId);
+  const savedCorgi = localStorage.getItem("hotspot_override_corgi_" + sceneId);
+  
+  vocab = savedVocab ? JSON.parse(savedVocab) : baseScene.vocabulary.map(w => ({ ...w }));
+  corgi = savedCorgi ? JSON.parse(savedCorgi) : { ...baseScene.corgi };
+  
+  // Set image
+  const imgEl = document.getElementById("scene-img");
+  const fallbackEl = document.getElementById("scene-img-fallback");
+  if (imgEl) imgEl.style.display = 'block';
+  if (fallbackEl) fallbackEl.style.display = 'none';
+  if (fallbackEl) {
+    document.getElementById("scene-img-fallback-text").textContent = `${baseScene.nameEn} - Image Missing`;
+  }
+  document.getElementById("scene-img").src = localStorage.getItem("image_override_" + sceneId) || baseScene.image;
+  
+  selectedId = null;
+  refresh();
+}
+
+// ── RENDER SIDEBAR ─────────────────────────────────────────────────────────────
+function renderSidebar() {
+  const list = document.getElementById("word-list");
+  list.innerHTML = "";
+
+  vocab.forEach(w => {
+    const el = document.createElement("div");
+    el.className = `word-item${selectedId === w.id ? " selected" : ""}`;
+    el.dataset.id = w.id;
+    el.innerHTML = `
+      <span class="word-emoji">${w.emoji}</span>
+      <div class="word-label">
+        <div class="en">${w.wordEn}</div>
+        <div class="th">${w.wordTh}</div>
+      </div>
+      <div class="word-coords">${w.x.toFixed(1)}, ${w.y.toFixed(1)}</div>
+    `;
+    el.addEventListener("click", () => { selectedId = w.id; refresh(); });
+    list.appendChild(el);
+  });
+
+  // Corgi entry
+  const corgiEl = document.createElement("div");
+  corgiEl.className = `word-item corgi-item${selectedId === "corgi" ? " selected" : ""}`;
+  corgiEl.innerHTML = `
+    <span class="word-emoji">🐕</span>
+    <div class="word-label">
+      <div class="en">Hidden Corgi 🐾</div>
+      <div class="th">เป้าหมายซ่อน</div>
+    </div>
+    <div class="word-coords">${corgi.x.toFixed(1)}, ${corgi.y.toFixed(1)}</div>
+  `;
+  corgiEl.addEventListener("click", () => { selectedId = "corgi"; refresh(); });
+  list.appendChild(corgiEl);
+}
+
+// ── RENDER PINS ON MAP ─────────────────────────────────────────────────────────
+function renderPins() {
+  const container = document.getElementById("pins-container");
+  container.innerHTML = "";
+
+  vocab.forEach(w => {
+    const pin = document.createElement("div");
+    pin.className  = `hotspot-pin${selectedId === w.id ? " selected" : ""}`;
+    pin.dataset.id = w.id;
+    pin.style.left = `${w.x}%`;
+    pin.style.top  = `${w.y}%`;
+    pin.innerHTML  = `
+      <div class="pin-circle">${w.emoji}</div>
+      <div class="pin-label">${w.wordEn}</div>
+    `;
+
+    pin.addEventListener("pointerdown", e => { e.stopPropagation(); startPinDrag(e, w.id); });
+    container.appendChild(pin);
+  });
+
+  // Corgi pin
+  const corgiPin = document.createElement("div");
+  corgiPin.className  = `hotspot-pin corgi-pin${selectedId === "corgi" ? " selected" : ""}`;
+  corgiPin.dataset.id = "corgi";
+  corgiPin.style.left = `${corgi.x}%`;
+  corgiPin.style.top  = `${corgi.y}%`;
+  corgiPin.innerHTML  = `
+    <div class="pin-circle">🐕</div>
+    <div class="pin-label">Corgi (hidden)</div>
+  `;
+  corgiPin.addEventListener("pointerdown", e => { e.stopPropagation(); startPinDrag(e, "corgi"); });
+  container.appendChild(corgiPin);
+}
+
+function refresh() {
+  renderSidebar();
+  renderPins();
+  updateStatus();
+}
+
+// ── PIN DRAG ──────────────────────────────────────────────────────────────────
+function startPinDrag(e, id) {
+  selectedId = id;
+  pinDragId  = id;
+  const pin = document.querySelector(`.hotspot-pin[data-id="${id}"]`);
+  if (pin) pin.classList.add("dragging");
+  refresh();
+
+  window.addEventListener("pointermove", onPinMove);
+  window.addEventListener("pointerup",   onPinUp,   { once: true });
+}
+
+function onPinMove(e) {
+  if (!pinDragId) return;
+  const wrapper = document.getElementById("map-wrapper");
+  const rect    = wrapper.getBoundingClientRect();
+
+  const wx = ((e.clientX - rect.left) / mapScale);
+  const wy = ((e.clientY - rect.top)  / mapScale);
+
+  const xPct = Math.min(100, Math.max(0, (wx / MAP_SIZE) * 100));
+  const yPct = Math.min(100, Math.max(0, (wy / MAP_SIZE) * 100));
+
+  if (pinDragId === "corgi") {
+    corgi.x = +xPct.toFixed(2);
+    corgi.y = +yPct.toFixed(2);
+  } else {
+    const w = vocab.find(v => v.id === pinDragId);
+    if (w) { w.x = +xPct.toFixed(2); w.y = +yPct.toFixed(2); }
+  }
+
+  const pin = document.querySelector(`.hotspot-pin[data-id="${pinDragId}"]`);
+  if (pin) { pin.style.left = `${xPct}%`; pin.style.top = `${yPct}%`; }
+
+  updateCoordInSidebar(pinDragId, xPct, yPct);
+  updateStatus();
+}
+
+function updateCoordInSidebar(id, x, y) {
+  const item = document.querySelector(`.word-item[data-id="${id}"]`);
+  if (!item) return;
+  const coord = item.querySelector(".word-coords");
+  if (coord) coord.textContent = `${x.toFixed(1)}, ${y.toFixed(1)}`;
+}
+
+function onPinUp() {
+  if (pinDragId) {
+    const pin = document.querySelector(`.hotspot-pin[data-id="${pinDragId}"]`);
+    if (pin) pin.classList.remove("dragging");
+  }
+  pinDragId = null;
+  window.removeEventListener("pointermove", onPinMove);
+  refresh();
+}
+
+// ── MAP PAN & ZOOM ─────────────────────────────────────────────────────────────
+function initMapControls() {
+  const vp = document.getElementById("map-viewport");
+
+  ["btn-zi","btn-zi2"].forEach(id => document.getElementById(id).addEventListener("click", () => zoomMap(0.25)));
+  ["btn-zo","btn-zo2"].forEach(id => document.getElementById(id).addEventListener("click", () => zoomMap(-0.25)));
+  ["btn-zr"].forEach(id => document.getElementById(id).addEventListener("click", () => { mapScale = 1; centerMap(); }));
+
+  // Dropdown Scene Selector
+  document.getElementById("scene-selector").addEventListener("change", e => {
+    loadSceneData(e.target.value);
+  });
+
+  vp.addEventListener("pointerdown", e => {
+    if (pinDragId) return;
+    isPanning = true;
+    panSX  = e.clientX; panSY  = e.clientY;
+    panTx0 = mapTx;     panTy0 = mapTy;
+    vp.style.cursor = "grabbing";
+    vp.setPointerCapture(e.pointerId);
+  });
+
+  vp.addEventListener("pointermove", e => {
+    if (!isPanning) return;
+    mapTx = panTx0 + (e.clientX - panSX);
+    mapTy = panTy0 + (e.clientY - panSY);
+    applyMapTransform();
+    updateCursorCoord(e);
+  });
+
+  vp.addEventListener("pointerup", e => {
+    if (!isPanning) return;
+    isPanning = false;
+    vp.style.cursor = "crosshair";
+    vp.releasePointerCapture(e.pointerId);
+  });
+
+  vp.addEventListener("click", e => {
+    if (isPanning || pinDragId) return;
+    if (!selectedId) return;
+
+    const wrapper = document.getElementById("map-wrapper");
+    const rect    = wrapper.getBoundingClientRect();
+    const wx  = (e.clientX - rect.left) / mapScale;
+    const wy  = (e.clientY - rect.top)  / mapScale;
+    const xPct = Math.min(100, Math.max(0, (wx / MAP_SIZE) * 100));
+    const yPct = Math.min(100, Math.max(0, (wy / MAP_SIZE) * 100));
+
+    if (selectedId === "corgi") {
+      corgi.x = +xPct.toFixed(2);
+      corgi.y = +yPct.toFixed(2);
+    } else {
+      const w = vocab.find(v => v.id === selectedId);
+      if (w) { w.x = +xPct.toFixed(2); w.y = +yPct.toFixed(2); }
+    }
+    refresh();
+  });
+
+  vp.addEventListener("wheel", e => {
+    e.preventDefault();
+    const rect   = vp.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    const delta = e.deltaY > 0 ? -0.15 : 0.15;
+    zoomMapAt(delta, cx, cy);
+    updateCursorCoord(e);
+  }, { passive: false });
+
+  vp.addEventListener("mousemove", updateCursorCoord);
+}
+
+function zoomMap(delta) {
+  const vp = document.getElementById("map-viewport");
+  zoomMapAt(delta, vp.clientWidth / 2, vp.clientHeight / 2);
+}
+
+function zoomMapAt(delta, px, py) {
+  const old = mapScale;
+  mapScale = Math.min(5, Math.max(0.3, mapScale + delta));
+  mapTx = px - (px - mapTx) * (mapScale / old);
+  mapTy = py - (py - mapTy) * (mapScale / old);
+  applyMapTransform();
+  document.getElementById("status-zoom").textContent = `Zoom: ${Math.round(mapScale * 100)}%`;
+}
+
+function applyMapTransform(smooth = false) {
+  const w = document.getElementById("map-wrapper");
+  w.style.transition = smooth ? "transform 0.3s ease" : "none";
+  w.style.transform  = `translate(${mapTx}px,${mapTy}px) scale(${mapScale})`;
+}
+
+function centerMap() {
+  const vp = document.getElementById("map-viewport");
+  mapTx = (vp.clientWidth  - MAP_SIZE * mapScale) / 2;
+  mapTy = (vp.clientHeight - MAP_SIZE * mapScale) / 2;
+  applyMapTransform(true);
+  document.getElementById("status-zoom").textContent = `Zoom: ${Math.round(mapScale * 100)}%`;
+}
+
+function updateCursorCoord(e) {
+  const wrapper = document.getElementById("map-wrapper");
+  const rect    = wrapper.getBoundingClientRect();
+  const wx  = (e.clientX - rect.left) / mapScale;
+  const wy  = (e.clientY - rect.top)  / mapScale;
+  const xPct = ((wx / MAP_SIZE) * 100).toFixed(1);
+  const yPct = ((wy / MAP_SIZE) * 100).toFixed(1);
+  document.getElementById("status-cursor").textContent = `Cursor: x=${xPct}%, y=${yPct}%`;
+}
+
+function updateStatus() {
+  const el = document.getElementById("status-selected");
+  if (!selectedId) {
+    el.textContent = "Click a word in the sidebar to select it";
+    return;
+  }
+  if (selectedId === "corgi") {
+    el.textContent = `Selected: 🐕 Corgi — drag its pin, or click the image to move it`;
+  } else {
+    const w = vocab.find(v => v.id === selectedId);
+    if (w) el.textContent = `Selected: ${w.emoji} "${w.wordEn}" at (${w.x.toFixed(1)}%, ${w.y.toFixed(1)}%)`;
+  }
+  document.getElementById("status-zoom").textContent = `Zoom: ${Math.round(mapScale * 100)}%`;
+}
+
+// ── SAVE TO GAME (localStorage scoped by scene ID) ───────────────────────────
+document.getElementById("btn-save").addEventListener("click", () => {
+  localStorage.setItem("hotspot_override_vocab_" + activeSceneId,  JSON.stringify(vocab));
+  localStorage.setItem("hotspot_override_corgi_" + activeSceneId,  JSON.stringify(corgi));
+  document.getElementById("btn-save").textContent = "✅ Saved!";
+  setTimeout(() => document.getElementById("btn-save").textContent = "💾 Save to Game", 2000);
+});
+
+// ── EXPORT CODE ───────────────────────────────────────────────────────────────
+document.getElementById("btn-copy").addEventListener("click", () => {
+  const lines = vocab.map(w =>
+    `    { id: "${w.id}", wordEn: "${w.wordEn}", wordTh: "${w.wordTh}", phonetic: "${w.phonetic}", x: ${w.x}, y: ${w.y}, emoji: "${w.emoji}" }`
+  );
+  const corgiLine = `  corgi: { x: ${corgi.x}, y: ${corgi.y}, radius: 5 },`;
+  
+  const formattedId = activeSceneId.toUpperCase() + "_SCENE";
+  const output =
+    `const ${formattedId} = {\n  id: "${activeSceneId}",\n  corgi: { x: ${corgi.x}, y: ${corgi.y}, radius: 5 },\n  vocabulary: [\n${lines.join(",\n")}\n  ]\n};`;
+    
+  document.getElementById("output-textarea").value = output;
+  document.getElementById("output-title").textContent = `📋 Export code for ${activeSceneId}`;
+  document.getElementById("output-modal").classList.add("visible");
+});
+
+document.getElementById("btn-copy-text").addEventListener("click", () => {
+  const ta = document.getElementById("output-textarea");
+  ta.select();
+  document.execCommand("copy");
+  document.getElementById("btn-copy-text").textContent = "✅ Copied!";
+  setTimeout(() => document.getElementById("btn-copy-text").textContent = "Copy to Clipboard", 2000);
+});
+
+document.getElementById("btn-close-output").addEventListener("click", () => {
+  document.getElementById("output-modal").classList.remove("visible");
+});
+
+// ── RESET POSITIONS ───────────────────────────────────────────────────────────
+document.getElementById("btn-reset-pos").addEventListener("click", () => {
+  if (!confirm(`Reset pin positions to defaults for ${activeSceneId}?`)) return;
+  localStorage.removeItem("hotspot_override_vocab_" + activeSceneId);
+  localStorage.removeItem("hotspot_override_corgi_" + activeSceneId);
+  loadSceneData(activeSceneId);
+});
+
+// ── BOOT ──────────────────────────────────────────────────────────────────────
+window.addEventListener("DOMContentLoaded", () => {
+  mapScale = 0.75;
+  initMapControls();
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialScene = urlParams.get('scene') || 'street';
+  
+  const selector = document.getElementById("scene-selector");
+  if (selector) {
+    selector.value = initialScene;
+  }
+  
+  loadSceneData(initialScene);
+  centerMap();
+});
+</script>
+</body>
+</html>

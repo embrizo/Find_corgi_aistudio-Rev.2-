@@ -1,0 +1,6 @@
+{
+  "name": "Find the Corgi",
+  "description": "An interactive English-Thai vocabulary app for children. Find the hidden Corgi and learn 1,000 words!",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
