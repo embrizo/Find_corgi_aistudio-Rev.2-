@@ -1,11 +1,20 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously, signOut, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import config from './firebase-applet-config.json';
 
-const app = initializeApp(config);
+const firebaseConfig = {
+  apiKey: "AIzaSyDF92fpEUTaCY2MYRj-23DNQ3hiF3ZhOQQ",
+  authDomain: "find-corgi.firebaseapp.com",
+  projectId: "find-corgi",
+  storageBucket: "find-corgi.firebasestorage.app",
+  messagingSenderId: "931296813432",
+  appId: "1:931296813432:web:36076504687ae48338a88d",
+  measurementId: "G-682HCDL3RP"
+};
+
+const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const db = getFirestore(app, config.firestoreDatabaseId);
+export const db = getFirestore(app);
 
 export const provider = new GoogleAuthProvider();
 provider.setCustomParameters({

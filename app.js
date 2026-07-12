@@ -76,63 +76,53 @@ document.addEventListener("DOMContentLoaded", () => {
     signInWithGoogle().catch(err => alert("Google Login Error: " + err.message));
   });
   document.getElementById('btn-login-guest').addEventListener('click', () => {
-    sessionStorage.setItem('guest_mode', 'true');
-    window.location.reload();
+    signInAsGuest().catch(err => alert("Guest Login Error: " + err.message));
   });
   document.getElementById('btn-logout').addEventListener('click', () => {
-    sessionStorage.removeItem('guest_mode');
     logOut().then(() => window.location.reload());
   });
 
   onAuthStateChanged(auth, async (user) => {
-    const isGuest = sessionStorage.getItem('guest_mode') === 'true';
     const authScreen = document.getElementById('auth-screen');
     const homeScreen = document.getElementById('home-screen');
     const gameScreen = document.getElementById('game-screen');
     
-    if (user || isGuest) {
+    if (user) {
       if (authScreen) authScreen.style.display = 'none';
       
       const welcomeEl = document.getElementById('user-welcome');
       if (welcomeEl) {
-        welcomeEl.textContent = `Welcome, ${user ? (user.displayName || 'Explorer') : 'Guest'}! 🐾`;
+        welcomeEl.textContent = `Welcome, ${user.isAnonymous ? 'Guest' : (user.displayName || 'Explorer')}! 🐾`;
       }
 
       // Save user to Firestore
-      if (user || isGuest) {
+      try {
+        const uid = user.uid;
+        
+        let province = "Unknown";
         try {
-          const uid = user ? user.uid : 'guest_' + (sessionStorage.getItem('guest_id') || Math.random().toString(36).substring(2, 9));
-          if (isGuest && !sessionStorage.getItem('guest_id')) {
-            sessionStorage.setItem('guest_id', uid.replace('guest_', ''));
-          }
-          
-          let province = "Unknown";
-          try {
-            const res = await fetch("https://ipapi.co/json/");
-            const data = await res.json();
-            if (data.region) province = data.region;
-          } catch(e) { console.warn("Could not fetch location", e); }
-          
-          const userRef = doc(db, 'users', uid);
-          const docSnap = await getDoc(userRef);
-          if (docSnap.exists() && docSnap.data().blocked) {
-             alert("Your account has been blocked.");
-             if (user) await logOut();
-             sessionStorage.removeItem('guest_mode');
-             sessionStorage.removeItem('guest_id');
-             window.location.reload();
-             return;
-          }
+          const res = await fetch("https://ipapi.co/json/");
+          const data = await res.json();
+          if (data.region) province = data.region;
+        } catch(e) { console.warn("Could not fetch location", e); }
+        
+        const userRef = doc(db, 'users', uid);
+        const docSnap = await getDoc(userRef);
+        if (docSnap.exists() && docSnap.data().blocked) {
+            alert("Your account has been blocked.");
+            await logOut();
+            window.location.reload();
+            return;
+        }
 
-          await setDoc(userRef, {
-            displayName: user ? user.displayName : 'Guest',
-            email: user ? user.email : null,
-            isGuest: !user,
-            lastLogin: serverTimestamp(),
-            province: province
-          }, { merge: true });
-        } catch(e) { console.error("Error saving user to Firestore", e); }
-      }
+        await setDoc(userRef, {
+          displayName: user.isAnonymous ? 'Guest' : (user.displayName || 'Guest'),
+          email: user.email || null,
+          isGuest: user.isAnonymous,
+          lastLogin: serverTimestamp(),
+          province: province
+        }, { merge: true });
+      } catch(e) { console.error("Error saving user to Firestore", e); }
 
       const isAdmin = user && user.email && ADMIN_EMAILS.includes(user.email);
       const btnAdjustHome = document.getElementById('btn-adjust-pins-home');
