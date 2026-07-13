@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   document.getElementById('btn-login-guest').addEventListener('click', () => {
     signInAsGuest().catch(err => {
-      if (err.code === 'auth/admin-restricted-operation' || err.code === 'auth/operation-not-allowed') {
+      if (err.code === 'auth/admin-restricted-operation' || err.code === 'auth/operation-not-allowed' || (err.message && err.message.includes('auth/admin-restricted-operation'))) {
         const fakeUser = {
           uid: "guest_local_" + Math.random().toString(36).substring(2, 9),
           isAnonymous: true,
