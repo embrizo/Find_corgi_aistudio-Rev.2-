@@ -173,20 +173,20 @@ const SUPERMARKET_SCENE = {
   nameTh: "ซูเปอร์มาร์เก็ต",
   image: "assets/supermarket_scene.png",
   desc: "Go shopping at the local supermarket! Find fresh food, shopping carts, and cashiers.",
-  corgi: { x: 50.0, y: 50.0, radius: 5 },
+  corgi: { x: 19.47, y: 45.93, radius: 5 },
   vocabulary: [
-    { id: "shopping_cart",   wordEn: "shopping cart",  wordTh: "รถเข็นช้อปปิ้ง",  phonetic: "/ˈʃɑː.pɪŋ ˌkɑːrt/",  x: 20.0, y: 75.0, emoji: "🛒" },
-    { id: "basket",          wordEn: "basket",         wordTh: "ตะกร้า",        phonetic: "/ˈbæs.kɪt/",         x: 10.0, y: 75.0, emoji: "🧺" },
-    { id: "grocery_shelf",   wordEn: "shelf",          wordTh: "ชั้นวางของ",     phonetic: "/ʃelf/",             x: 35.0, y: 40.0, emoji: "🗄️" },
-    { id: "fruits",          wordEn: "fruits",         wordTh: "ผลไม้",        phonetic: "/fruːts/",           x: 65.0, y: 45.0, emoji: "🍎" },
-    { id: "vegetables",      wordEn: "vegetables",     wordTh: "ผัก",          phonetic: "/ˈvedʒ.tə.bəlz/",    x: 80.0, y: 45.0, emoji: "🥦" },
-    { id: "checkout_register",wordEn: "checkout",      wordTh: "เคาน์เตอร์ชำระเงิน", phonetic: "/ˈtʃek.aʊt/",      x: 50.0, y: 80.0, emoji: "💳" },
-    { id: "cashier",         wordEn: "cashier",        wordTh: "พนักงานแคชเชียร์", phonetic: "/kæˈʃɪr/",          x: 60.0, y: 75.0, emoji: "🧑‍💼" },
-    { id: "milk_bottle",     wordEn: "milk",           wordTh: "นม",           phonetic: "/mɪlk/",             x: 25.0, y: 25.0, emoji: "🥛" },
-    { id: "bread",           wordEn: "bread",          wordTh: "ขนมปัง",       phonetic: "/bred/",            x: 75.0, y: 25.0, emoji: "🍞" },
-    { id: "fish_counter",    wordEn: "fish",           wordTh: "ปลา",          phonetic: "/fɪʃ/",             x: 85.0, y: 75.0, emoji: "🐟" },
-    { id: "eggs",            wordEn: "eggs",           wordTh: "ไข่",          phonetic: "/eɡz/",             x: 15.0, y: 55.0, emoji: "🥚" },
-    { id: "shopping_bag",    wordEn: "bag",            wordTh: "ถุงช้อปปิ้ง",     phonetic: "/bæɡ/",             x: 42.0, y: 80.0, emoji: "🛍️" }
+    { id: "shopping_cart", wordEn: "shopping cart", wordTh: "รถเข็นช้อปปิ้ง", phonetic: "/ˈʃɑː.pɪŋ ˌkɑːrt/", x: 36.93, y: 80.6, emoji: "🛒" },
+    { id: "basket", wordEn: "basket", wordTh: "ตะกร้า", phonetic: "/ˈbæs.kɪt/", x: 57.73, y: 82.07, emoji: "🧺" },
+    { id: "grocery_shelf", wordEn: "shelf", wordTh: "ชั้นวางของ", phonetic: "/ʃelf/", x: 71.47, y: 39, emoji: "🗄️" },
+    { id: "fruits", wordEn: "fruits", wordTh: "ผลไม้", phonetic: "/fruːts/", x: 13.33, y: 27.4, emoji: "🍎" },
+    { id: "vegetables", wordEn: "vegetables", wordTh: "ผัก", phonetic: "/ˈvedʒ.tə.bəlz/", x: 19.33, y: 38.2, emoji: "🥦" },
+    { id: "checkout_register", wordEn: "checkout", wordTh: "เคาน์เตอร์ชำระเงิน", phonetic: "/ˈtʃek.aʊt/", x: 77.33, y: 63.93, emoji: "💳" },
+    { id: "cashier", wordEn: "cashier", wordTh: "พนักงานแคชเชียร์", phonetic: "/kæˈʃɪr/", x: 91.2, y: 54.87, emoji: "🧑💼" },
+    { id: "milk_bottle", wordEn: "milk", wordTh: "นม", phonetic: "/mɪlk/", x: 3.87, y: 85.67, emoji: "🥛" },
+    { id: "bread", wordEn: "bread", wordTh: "ขนมปัง", phonetic: "/bred/", x: 11.2, y: 75.8, emoji: "🍞" },
+    { id: "fish_counter", wordEn: "fish", wordTh: "ปลา", phonetic: "/fɪʃ/", x: 26.53, y: 54.2, emoji: "🐟" },
+    { id: "eggs", wordEn: "eggs", wordTh: "ไข่", phonetic: "/eɡz/", x: 13.87, y: 58.73, emoji: "🥚" },
+    { id: "shopping_bag", wordEn: "bag", wordTh: "ถุงช้อปปิ้ง", phonetic: "/bæɡ/", x: 85.6, y: 89.27, emoji: "🛍️" }
   ]
 };
 
@@ -196,20 +196,20 @@ const HOTEL_SCENE = {
   nameTh: "โรงแรม",
   image: "assets/hotel_scene.png",
   desc: "Explore the cozy hotel! Spot the lobby reception desk, suitcases, and beds.",
-  corgi: { x: 45.0, y: 50.0, radius: 5 },
+  corgi: { x: 75.07, y: 87, radius: 5 },
   vocabulary: [
-    { id: "bed",          wordEn: "bed",          wordTh: "เตียงนอน",        phonetic: "/bed/",               x: 25.0, y: 35.0, emoji: "🛏️" },
-    { id: "key",          wordEn: "key",          wordTh: "กุญแจห้อง",       phonetic: "/kiː/",               x: 60.0, y: 25.0, emoji: "🔑" },
-    { id: "pillow",       wordEn: "pillow",       wordTh: "หมอน",           phonetic: "/ˈpɪl.oʊ/",           x: 35.0, y: 30.0, emoji: "🛌" },
-    { id: "suitcase",     wordEn: "suitcase",     wordTh: "กระเป๋าเดินทาง",   phonetic: "/ˈsuːt.keɪs/",        x: 15.0, y: 70.0, emoji: "🧳" },
-    { id: "reception",    wordEn: "reception",    wordTh: "เคาน์เตอร์ต้อนรับ", phonetic: "/rɪˈsep.ʃən/",        x: 50.0, y: 65.0, emoji: "🛎️" },
-    { id: "elevator",     wordEn: "elevator",     wordTh: "ลิฟต์",           phonetic: "/ˈel.ə.veɪ.tər/",     x: 80.0, y: 40.0, emoji: "🛗" },
-    { id: "room_service", wordEn: "room service", wordTh: "รูมเซอร์วิส",     phonetic: "/ˈruːm ˌsɜːr.vɪs/",   x: 45.0, y: 80.0, emoji: "🍽️" },
-    { id: "shower",       wordEn: "shower",       wordTh: "ฝักบัวอาบน้ำ",     phonetic: "/ˈʃaʊ.ər/",           x: 85.0, y: 80.0, emoji: "🚿" },
-    { id: "luggage_cart", wordEn: "luggage cart", wordTh: "รถเข็นกระเป๋า",    phonetic: "/ˈlʌɡ.ɪdʒ ˌkɑːrt/",   x: 30.0, y: 85.0, emoji: "🛒" },
-    { id: "lobby_sofa",   wordEn: "sofa",         wordTh: "โซฟาล็อบบี้",      phonetic: "/ˈsoʊ.fə/",           x: 75.0, y: 65.0, emoji: "🛋️" },
-    { id: "telephone",    wordEn: "telephone",    wordTh: "โทรศัพท์",        phonetic: "/ˈtel.ə.foʊn/",       x: 62.0, y: 70.0, emoji: "☎️" },
-    { id: "hanger",       wordEn: "hanger",       wordTh: "ไม้แขวนเสื้อ",     phonetic: "/ˈhæŋ.ər/",           x: 88.0, y: 25.0, emoji: "🧥" }
+    { id: "bed", wordEn: "bed", wordTh: "เตียงนอน", phonetic: "/bed/", x: 63.47, y: 79.8, emoji: "🛏️" },
+    { id: "key", wordEn: "key", wordTh: "กุญแจห้อง", phonetic: "/kiː/", x: 17.07, y: 36.2, emoji: "🔑" },
+    { id: "pillow", wordEn: "pillow", wordTh: "หมอน", phonetic: "/ˈpɪl.oʊ/", x: 58.27, y: 63.13, emoji: "🛌" },
+    { id: "suitcase", wordEn: "suitcase", wordTh: "กระเป๋าเดินทาง", phonetic: "/ˈsuːt.keɪs/", x: 35.07, y: 51, emoji: "🧳" },
+    { id: "reception", wordEn: "reception", wordTh: "เคาน์เตอร์ต้อนรับ", phonetic: "/rɪˈsep.ʃən/", x: 22.53, y: 35.27, emoji: "🛎️" },
+    { id: "elevator", wordEn: "elevator", wordTh: "ลิฟต์", phonetic: "/ˈel.ə.veɪ.tər/", x: 41.87, y: 18.6, emoji: "🛗" },
+    { id: "room_service", wordEn: "room service", wordTh: "รูมเซอร์วิส", phonetic: "/ˈruːm ˌsɜːr.vɪs/", x: 87.87, y: 87, emoji: "🍽️" },
+    { id: "shower", wordEn: "shower", wordTh: "ฝักบัวอาบน้ำ", phonetic: "/ˈʃaʊ.ər/", x: 8.4, y: 77.8, emoji: "🚿" },
+    { id: "luggage_cart", wordEn: "luggage cart", wordTh: "รถเข็นกระเป๋า", phonetic: "/ˈlʌɡ.ɪdʒ ˌkɑːrt/", x: 27.6, y: 59.67, emoji: "🛒" },
+    { id: "lobby_sofa", wordEn: "sofa", wordTh: "โซฟาล็อบบี้", phonetic: "/ˈsoʊ.fə/", x: 75.6, y: 31.93, emoji: "🛋️" },
+    { id: "telephone", wordEn: "telephone", wordTh: "โทรศัพท์", phonetic: "/ˈtel.ə.foʊn/", x: 12.53, y: 37.4, emoji: "☎️" },
+    { id: "hanger", wordEn: "hanger", wordTh: "ไม้แขวนเสื้อ", phonetic: "/ˈhæŋ.ər/", x: 30.8, y: 42.07, emoji: "🧥" }
   ]
 };
 
@@ -219,20 +219,20 @@ const HOSPITAL_SCENE = {
   nameTh: "โรงพยาบาล",
   image: "assets/hospital_scene.png",
   desc: "Visit the busy hospital! Find doctors, nurses, wheelchairs, and ambulances.",
-  corgi: { x: 50.0, y: 50.0, radius: 5 },
+  corgi: { x: 48.4, y: 67.53, radius: 5 },
   vocabulary: [
-    { id: "doctor",       wordEn: "doctor",       wordTh: "คุณหมอ",          phonetic: "/ˈdɑːk.tər/",         x: 25.0, y: 50.0, emoji: "👨‍⚕️" },
-    { id: "nurse",        wordEn: "nurse",        wordTh: "พยาบาล",          phonetic: "/nɜːrs/",             x: 40.0, y: 50.0, emoji: "👩‍⚕️" },
-    { id: "patient_bed",  wordEn: "patient bed",  wordTh: "เตียงผู้ป่วย",      phonetic: "/ˈpeɪ.ʃənt ˌbed/",    x: 65.0, y: 55.0, emoji: "🛏️" },
-    { id: "stethoscope",  wordEn: "stethoscope",  wordTh: "หูฟังแพทย์",       phonetic: "/ˈsteθ.ə.skoʊp/",     x: 28.0, y: 35.0, emoji: "🩺" },
-    { id: "wheelchair",   wordEn: "wheelchair",   wordTh: "รถเข็นผู้ป่วย",      phonetic: "/ˈwiːl.tʃer/",        x: 15.0, y: 75.0, emoji: "♿" },
-    { id: "medicine",     wordEn: "medicine",     wordTh: "ยา",              phonetic: "/ˈmed.ɪ.sən/",        x: 50.0, y: 30.0, emoji: "💊" },
-    { id: "syringe",      wordEn: "syringe",      wordTh: "เข็มฉีดยา",       phonetic: "/sɪˈrɪndʒ/",          x: 58.0, y: 30.0, emoji: "💉" },
-    { id: "bandage",      wordEn: "bandage",      wordTh: "ผ้าพันแผล",        phonetic: "/ˈbæn.dɪdʒ/",         x: 70.0, y: 30.0, emoji: "🩹" },
-    { id: "thermometer",  wordEn: "thermometer",  wordTh: "เครื่องวัดไข้",     phonetic: "/θəˈmɒm.ɪ.tər/",      x: 82.0, y: 30.0, emoji: "🌡️" },
-    { id: "microscope",   wordEn: "microscope",   wordTh: "กล้องจุลทรรศน์",   phonetic: "/ˈmaɪ.krə.skoʊp/",    x: 48.0, y: 75.0, emoji: "🔬" },
-    { id: "first_aid",    wordEn: "first aid kit",wordTh: "กล่องปฐมพยาบาล",    phonetic: "/ˌfɜːst ˈeɪd ˌkɪt/",  x: 60.0, y: 75.0, emoji: "🧰" },
-    { id: "ambulance",    wordEn: "ambulance",    wordTh: "รถพยาบาล",        phonetic: "/ˈæm.bjə.ləns/",      x: 85.0, y: 70.0, emoji: "🚑" }
+    { id: "doctor", wordEn: "doctor", wordTh: "คุณหมอ", phonetic: "/ˈdɑːk.tər/", x: 78.67, y: 39.4, emoji: "👨⚕️" },
+    { id: "nurse", wordEn: "nurse", wordTh: "พยาบาล", phonetic: "/nɜːrs/", x: 29.2, y: 49.8, emoji: "👩⚕️" },
+    { id: "patient_bed", wordEn: "patient bed", wordTh: "เตียงผู้ป่วย", phonetic: "/ˈpeɪ.ʃənt ˌbed/", x: 94.8, y: 63.8, emoji: "🛏️" },
+    { id: "stethoscope", wordEn: "stethoscope", wordTh: "หูฟังแพทย์", phonetic: "/ˈsteθ.ə.skoʊp/", x: 74, y: 47.93, emoji: "🩺" },
+    { id: "wheelchair", wordEn: "wheelchair", wordTh: "รถเข็นผู้ป่วย", phonetic: "/ˈwiːl.tʃer/", x: 20.27, y: 65.53, emoji: "♿" },
+    { id: "medicine", wordEn: "medicine", wordTh: "ยา", phonetic: "/ˈmed.ɪ.sən/", x: 59.47, y: 47.27, emoji: "💊" },
+    { id: "syringe", wordEn: "syringe", wordTh: "เข็มฉีดยา", phonetic: "/sɪˈrɪndʒ/", x: 91.6, y: 71.93, emoji: "💉" },
+    { id: "bandage", wordEn: "bandage", wordTh: "ผ้าพันแผล", phonetic: "/ˈbæn.dɪdʒ/", x: 48, y: 55.4, emoji: "🩹" },
+    { id: "thermometer", wordEn: "thermometer", wordTh: "เครื่องวัดไข้", phonetic: "/θəˈmɒm.ɪ.tər/", x: 56.93, y: 51.8, emoji: "🌡️" },
+    { id: "microscope", wordEn: "microscope", wordTh: "กล้องจุลทรรศน์", phonetic: "/ˈmaɪ.krə.skoʊp/", x: 51.87, y: 46.47, emoji: "🔬" },
+    { id: "first_aid", wordEn: "first aid kit", wordTh: "กล่องปฐมพยาบาล", phonetic: "/ˌfɜːst ˈeɪd ˌkɪt/", x: 6.4, y: 31.27, emoji: "🧰" },
+    { id: "ambulance", wordEn: "ambulance", wordTh: "รถพยาบาล", phonetic: "/ˈæm.bjə.ləns/", x: 61.33, y: 35.67, emoji: "🚑" }
   ]
 };
 
@@ -242,20 +242,20 @@ const THEATER_SCENE = {
   nameTh: "โรงละคร",
   image: "assets/theater_scene.png",
   desc: "Enjoy a show at the grand theater! Spot stage spotlights, curtains, and actors.",
-  corgi: { x: 50.0, y: 50.0, radius: 5 },
+  corgi: { x: 21.24, y: 63.61, radius: 5 },
   vocabulary: [
-    { id: "stage",        wordEn: "stage",        wordTh: "เวที",            phonetic: "/steɪdʒ/",            x: 50.0, y: 45.0, emoji: "🎭" },
-    { id: "curtain",      wordEn: "curtain",      wordTh: "ม่านเวที",         phonetic: "/ˈkɜː.tən/",          x: 20.0, y: 25.0, emoji: "🎭" },
-    { id: "seat",         wordEn: "seat",         wordTh: "ที่นั่งผู้ชม",       phonetic: "/siːt/",              x: 50.0, y: 80.0, emoji: "🪑" },
-    { id: "actor",        wordEn: "actor",        wordTh: "นักแสดง",          phonetic: "/ˈæk.tər/",           x: 48.0, y: 50.0, emoji: "🧑‍🎤" },
-    { id: "microphone",   wordEn: "microphone",   wordTh: "ไมโครโฟน",        phonetic: "/ˈmaɪ.krə.foʊn/",     x: 58.0, y: 52.0, emoji: "🎤" },
-    { id: "ticket",       wordEn: "ticket",       wordTh: "ตั๋วเข้าชม",       phonetic: "/ˈtɪk.ɪt/",           x: 82.0, y: 85.0, emoji: "🎟️" },
-    { id: "spotlight",    wordEn: "spotlight",    wordTh: "ไฟสปอตไลท์",       phonetic: "/ˈspɑːt.laɪt/",       x: 80.0, y: 15.0, emoji: "🔦" },
-    { id: "mask",         wordEn: "mask",         wordTh: "หน้ากากละคร",      phonetic: "/mæsk/",              x: 10.0, y: 55.0, emoji: "🎭" },
-    { id: "program",      wordEn: "program",      wordTh: "สูจิบัตร",         phonetic: "/ˈproʊ.ɡræm/",        x: 28.0, y: 85.0, emoji: "📖" },
-    { id: "violin",       wordEn: "violin",       wordTh: "ไวโอลิน",         phonetic: "/ˌvaɪəˈlɪn/",         x: 72.0, y: 55.0, emoji: "🎻" },
-    { id: "director_chair",wordEn: "director chair",wordTh: "เก้าอี้ผู้กำกับ",  phonetic: "/daɪˈrek.tər ˌtʃer/", x: 35.0, y: 55.0, emoji: "🪑" },
-    { id: "applause",     wordEn: "applause",     wordTh: "เสียงปรบมือ",      phonetic: "/əˈplɑːz/",           x: 90.0, y: 80.0, emoji: "👏" }
+    { id: "stage", wordEn: "stage", wordTh: "เวที", phonetic: "/steɪdʒ/", x: 58.91, y: 69.94, emoji: "🎭" },
+    { id: "curtain", wordEn: "curtain", wordTh: "ม่านเวที", phonetic: "/ˈkɜː.tən/", x: 9.91, y: 35.94, emoji: "🎭" },
+    { id: "seat", wordEn: "seat", wordTh: "ที่นั่งผู้ชม", phonetic: "/siːt/", x: 80.67, y: 57.27, emoji: "🪑" },
+    { id: "actor", wordEn: "actor", wordTh: "นักแสดง", phonetic: "/ˈæk.tər/", x: 52.58, y: 50.11, emoji: "🧑🎤" },
+    { id: "microphone", wordEn: "microphone", wordTh: "ไมโครโฟน", phonetic: "/ˈmaɪ.krə.foʊn/", x: 60.24, y: 43.28, emoji: "🎤" },
+    { id: "ticket", wordEn: "ticket", wordTh: "ตั๋วเข้าชม", phonetic: "/ˈtɪk.ɪt/", x: 55.07, y: 93.67, emoji: "🎟️" },
+    { id: "spotlight", wordEn: "spotlight", wordTh: "ไฟสปอตไลท์", phonetic: "/ˈspɑːt.laɪt/", x: 71.91, y: 11.28, emoji: "🔦" },
+    { id: "mask", wordEn: "mask", wordTh: "หน้ากากละคร", phonetic: "/mæsk/", x: 44.08, y: 10.78, emoji: "🎭" },
+    { id: "program", wordEn: "program", wordTh: "สูจิบัตร", phonetic: "/ˈproʊ.ɡræm/", x: 34.24, y: 87.28, emoji: "📖" },
+    { id: "violin", wordEn: "violin", wordTh: "ไวโอลิน", phonetic: "/ˌvaɪəˈlɪn/", x: 81.33, y: 81.8, emoji: "🎻" },
+    { id: "director_chair", wordEn: "director chair", wordTh: "เก้าอี้ผู้กำกับ", phonetic: "/daɪˈrek.tər ˌtʃer/", x: 65.58, y: 84.78, emoji: "🪑" },
+    { id: "applause", wordEn: "applause", wordTh: "เสียงปรบมือ", phonetic: "/əˈplɑːz/", x: 86.53, y: 54.73, emoji: "👏" }
   ]
 };
 
@@ -265,20 +265,20 @@ const AIRPLANE_SCENE = {
   nameTh: "บนเครื่องบิน",
   image: "assets/airplane_scene.png",
   desc: "Fly high in the sky! Spot seats, flight attendants, and the airplane wing.",
-  corgi: { x: 50.0, y: 50.0, radius: 3 },
+  corgi: { x: 59.24, y: 88.28, radius: 5 },
   vocabulary: [
-    { id: "airplane",         wordEn: "airplane",         wordTh: "เครื่องบิน",       phonetic: "/ˈer.pleɪn/",         x: 20.0, y: 25.0, emoji: "✈️" },
-    { id: "window_seat",      wordEn: "window seat",      wordTh: "ที่นั่งริมหน้าต่าง",  phonetic: "/ˈwɪn.doʊ siːt/",     x: 35.0, y: 40.0, emoji: "🪟" },
-    { id: "pilot",            wordEn: "pilot",            wordTh: "นักบิน",          phonetic: "/ˈpaɪ.lət/",          x: 15.0, y: 55.0, emoji: "👨‍✈️" },
-    { id: "flight_attendant",  wordEn: "flight attendant",  wordTh: "พนักงานต้อนรับบนเครื่องบิน", phonetic: "/ˈflaɪt əˌten.dənt/",x: 35.0, y: 55.0, emoji: "👩‍✈️" },
-    { id: "safety_belt",      wordEn: "safety belt",      wordTh: "เข็มขัดนิรภัย",     phonetic: "/ˈseɪf.ti belt/",     x: 50.0, y: 65.0, emoji: "🪢" },
-    { id: "luggage",          wordEn: "luggage",          wordTh: "กระเป๋าเดินทาง",   phonetic: "/ˈlʌɡ.ɪdʒ/",          x: 75.0, y: 65.0, emoji: "🧳" },
-    { id: "seat_tray",        wordEn: "seat tray",        wordTh: "ถาดอาหาร",         phonetic: "/siːt treɪ/",         x: 50.0, y: 80.0, emoji: "🍽️" },
-    { id: "passport",         wordEn: "passport",         wordTh: "หนังสือเดินทาง",   phonetic: "/ˈpæs.pɔːrt/",        x: 65.0, y: 80.0, emoji: "🛂" },
-    { id: "headphone",        wordEn: "headphones",       wordTh: "หูฟัง",           phonetic: "/ˈhed.foʊnz/",        x: 80.0, y: 80.0, emoji: "🎧" },
-    { id: "overhead_bin",     wordEn: "overhead bin",     wordTh: "ช่องเก็บของเหนือศีรษะ", phonetic: "/ˌoʊ.vərˈhed bɪn/",  x: 55.0, y: 25.0, emoji: "🗄️" },
-    { id: "wing",             wordEn: "wing",             wordTh: "ปีกเครื่องบิน",     phonetic: "/wɪŋ/",               x: 82.0, y: 35.0, emoji: "✈️" },
-    { id: "cockpit",          wordEn: "cockpit",          wordTh: "ห้องนักบิน",       phonetic: "/ˈkɑːk.pɪt/",         x: 10.0, y: 40.0, emoji: "⚙️" }
+    { id: "airplane", wordEn: "airplane", wordTh: "เครื่องบิน", phonetic: "/ˈer.pleɪn/", x: 19.08, y: 94.28, emoji: "✈️" },
+    { id: "window_seat", wordEn: "window seat", wordTh: "ที่นั่งริมหน้าต่าง", phonetic: "/ˈwɪn.doʊ siːt/", x: 8.91, y: 54.94, emoji: "🪟" },
+    { id: "pilot", wordEn: "pilot", wordTh: "นักบิน", phonetic: "/ˈpaɪ.lət/", x: 76.91, y: 50.28, emoji: "👨✈️" },
+    { id: "flight_attendant", wordEn: "flight attendant", wordTh: "พนักงานต้อนรับบนเครื่องบิน", phonetic: "/ˈflaɪt əˌten.dənt/", x: 54.41, y: 36.78, emoji: "👩✈️" },
+    { id: "safety_belt", wordEn: "safety belt", wordTh: "เข็มขัดนิรภัย", phonetic: "/ˈseɪf.ti belt/", x: 26.24, y: 61.28, emoji: "🪢" },
+    { id: "luggage", wordEn: "luggage", wordTh: "กระเป๋าเดินทาง", phonetic: "/ˈlʌɡ.ɪdʒ/", x: 17.74, y: 16.94, emoji: "🧳" },
+    { id: "seat_tray", wordEn: "seat tray", wordTh: "ถาดอาหาร", phonetic: "/siːt treɪ/", x: 54.08, y: 44.94, emoji: "🍽️" },
+    { id: "passport", wordEn: "passport", wordTh: "หนังสือเดินทาง", phonetic: "/ˈpæs.pɔːrt/", x: 14.08, y: 68.61, emoji: "🛂" },
+    { id: "headphone", wordEn: "headphones", wordTh: "หูฟัง", phonetic: "/ˈhed.foʊnz/", x: 23.41, y: 71.94, emoji: "🎧" },
+    { id: "overhead_bin", wordEn: "overhead bin", wordTh: "ช่องเก็บของเหนือศีรษะ", phonetic: "/ˌoʊ.vərˈhed bɪn/", x: 25.08, y: 20.61, emoji: "🗄️" },
+    { id: "wing", wordEn: "wing", wordTh: "ปีกเครื่องบิน", phonetic: "/wɪŋ/", x: 7.08, y: 45.11, emoji: "✈️" },
+    { id: "cockpit", wordEn: "cockpit", wordTh: "ห้องนักบิน", phonetic: "/ˈkɑːk.pɪt/", x: 84.91, y: 67.61, emoji: "⚙️" }
   ]
 };
 
@@ -288,20 +288,20 @@ const SHIP_SCENE = {
   nameTh: "เรือเดินสมุทร",
   image: "assets/ship_scene.png",
   desc: "Sail the open seas! Look for anchors, lifebuoys, and the ship's captain.",
-  corgi: { x: 50.0, y: 50.0, radius: 3 },
+  corgi: { x: 80.91, y: 86.28, radius: 5 },
   vocabulary: [
-    { id: "cruise_ship",      wordEn: "cruise ship",      wordTh: "เรือสำราญ",        phonetic: "/ˈkruːz ʃɪp/",        x: 20.0, y: 25.0, emoji: "🚢" },
-    { id: "anchor",           wordEn: "anchor",           wordTh: "สมอเรือ",          phonetic: "/ˈæŋ.kər/",           x: 15.0, y: 80.0, emoji: "⚓" },
-    { id: "deck",             wordEn: "deck",             wordTh: "ดาดฟ้าเรือ",        phonetic: "/dek/",               x: 50.0, y: 65.0, emoji: "🛳️" },
-    { id: "life_jacket",      wordEn: "life jacket",      wordTh: "เสื้อชูชีพ",         phonetic: "/ˈlaɪf ˌdʒæk.ɪt/",    x: 75.0, y: 65.0, emoji: "🦺" },
-    { id: "captain",          wordEn: "captain",          wordTh: "กัปตันเรือ",        phonetic: "/ˈkæp.tɪn/",          x: 45.0, y: 50.0, emoji: "👨‍✈️" },
-    { id: "telescope",        wordEn: "telescope",        wordTh: "กล้องส่องทางไกล",   phonetic: "/ˈtel.ə.skoʊp/",     x: 60.0, y: 50.0, emoji: "🔭" },
-    { id: "cabin",            wordEn: "cabin",            wordTh: "ห้องพักผู้โดยสาร",   phonetic: "/ˈkæb.ɪn/",           x: 82.0, y: 55.0, emoji: "🚪" },
-    { id: "lifebuoy",         wordEn: "lifebuoy",         wordTh: "ห่วงยางชูชีพ",       phonetic: "/ˈlaɪf.bɔɪ/",         x: 35.0, y: 80.0, emoji: "🛟" },
-    { id: "compass",          wordEn: "compass",          wordTh: "เข็มทิศ",          phonetic: "/ˈkʌm.pəs/",          x: 65.0, y: 80.0, emoji: "🧭" },
-    { id: "wave",             wordEn: "wave",             wordTh: "คลื่นทะเล",        phonetic: "/weɪv/",              x: 50.0, y: 90.0, emoji: "🌊" },
-    { id: "funnel",           wordEn: "funnel",           wordTh: "ปล่องไฟเรือ",       phonetic: "/ˈfʌn.əl/",           x: 52.0, y: 15.0, emoji: "🏭" },
-    { id: "port",             wordEn: "port",             wordTh: "ท่าเรือ",          phonetic: "/pɔːrt/",             x: 88.0, y: 80.0, emoji: "⚓" }
+    { id: "cruise_ship", wordEn: "cruise ship", wordTh: "เรือสำราญ", phonetic: "/ˈkruːz ʃɪp/", x: 43.08, y: 43.78, emoji: "🚢" },
+    { id: "anchor", wordEn: "anchor", wordTh: "สมอเรือ", phonetic: "/ˈæŋ.kər/", x: 29.41, y: 87.78, emoji: "⚓" },
+    { id: "deck", wordEn: "deck", wordTh: "ดาดฟ้าเรือ", phonetic: "/dek/", x: 47.41, y: 63.44, emoji: "🛳️" },
+    { id: "life_jacket", wordEn: "life jacket", wordTh: "เสื้อชูชีพ", phonetic: "/ˈlaɪf ˌdʒæk.ɪt/", x: 72.08, y: 48.94, emoji: "🦺" },
+    { id: "captain", wordEn: "captain", wordTh: "กัปตันเรือ", phonetic: "/ˈkæp.tɪn/", x: 73.91, y: 31.11, emoji: "👨✈️" },
+    { id: "telescope", wordEn: "telescope", wordTh: "กล้องส่องทางไกล", phonetic: "/ˈtel.ə.skoʊp/", x: 75.08, y: 59.94, emoji: "🔭" },
+    { id: "cabin", wordEn: "cabin", wordTh: "ห้องพักผู้โดยสาร", phonetic: "/ˈkæb.ɪn/", x: 52.91, y: 30.11, emoji: "🚪" },
+    { id: "lifebuoy", wordEn: "lifebuoy", wordTh: "ห่วงยางชูชีพ", phonetic: "/ˈlaɪf.bɔɪ/", x: 58.74, y: 44.94, emoji: "🛟" },
+    { id: "compass", wordEn: "compass", wordTh: "เข็มทิศ", phonetic: "/ˈkʌm.pəs/", x: 89.58, y: 60.28, emoji: "🧭" },
+    { id: "wave", wordEn: "wave", wordTh: "คลื่นทะเล", phonetic: "/weɪv/", x: 8.41, y: 79.44, emoji: "🌊" },
+    { id: "funnel", wordEn: "funnel", wordTh: "ปล่องไฟเรือ", phonetic: "/ˈfʌn.əl/", x: 44.91, y: 18.28, emoji: "🏭" },
+    { id: "port", wordEn: "port", wordTh: "ท่าเรือ", phonetic: "/pɔːrt/", x: 5.74, y: 61.28, emoji: "⚓" }
   ]
 };
 
@@ -311,20 +311,20 @@ const UNDERWATER_SCENE = {
   nameTh: "ใต้ท้องทะเล",
   image: "assets/underwater_scene.png",
   desc: "Dive deep under the sea! Discover coral reefs, turtles, and hidden treasure.",
-  corgi: { x: 50.0, y: 50.0, radius: 3 },
+  corgi: { x: 78.08, y: 92.61, radius: 5 },
   vocabulary: [
-    { id: "fish",             wordEn: "fish",             wordTh: "ปลา",              phonetic: "/fɪʃ/",               x: 20.0, y: 25.0, emoji: "🐟" },
-    { id: "coral",            wordEn: "coral",            wordTh: "ปะการัง",          phonetic: "/ˈkɔːr.əl/",          x: 50.0, y: 85.0, emoji: "🪸" },
-    { id: "turtle",           wordEn: "turtle",           wordTh: "เต่าทะเล",          phonetic: "/ˈtɜː.təl/",          x: 82.0, y: 40.0, emoji: "🐢" },
-    { id: "octopus",          wordEn: "octopus",          wordTh: "ปลาหมึกยักษ์",       phonetic: "/ˈɒk.tə.pəs/",        x: 15.0, y: 65.0, emoji: "🐙" },
-    { id: "shark",            wordEn: "shark",            wordTh: "ฉลาม",             phonetic: "/ʃɑːrk/",             x: 45.0, y: 45.0, emoji: "🦈" },
-    { id: "submarine",        wordEn: "submarine",        wordTh: "เรือดำน้ำ",          phonetic: "/ˌsʌb.məˈriːn/",      x: 75.0, y: 25.0, emoji: "🚢" },
-    { id: "seaweed",          wordEn: "seaweed",          wordTh: "สาหร่ายทะเล",       phonetic: "/ˈsiː.wiːd/",         x: 88.0, y: 70.0, emoji: "🌿" },
-    { id: "treasure_chest",   wordEn: "treasure chest",   wordTh: "หีบสมบัติ",         phonetic: "/ˈtreʒ.ər tʃest/",    x: 65.0, y: 80.0, emoji: "🏴‍☠️" },
-    { id: "diver",            wordEn: "diver",            wordTh: "นักดำน้ำ",          phonetic: "/ˈdaɪ.vər/",          x: 35.0, y: 55.0, emoji: "🤿" },
-    { id: "seashell",         wordEn: "seashell",         wordTh: "เปลือกหอย",        phonetic: "/ˈsiː.ʃel/",          x: 28.0, y: 85.0, emoji: "🐚" },
-    { id: "jellyfish",        wordEn: "jellyfish",        wordTh: "แมงกะพรุน",        phonetic: "/ˈdʒel.i.fɪʃ/",       x: 62.0, y: 15.0, emoji: "🪼" },
-    { id: "starfish",         wordEn: "starfish",         wordTh: "ปลาดาว",           phonetic: "/ˈstɑː.fɪʃ/",         x: 80.0, y: 85.0, emoji: "⭐" }
+    { id: "fish", wordEn: "fish", wordTh: "ปลา", phonetic: "/fɪʃ/", x: 20.91, y: 9.11, emoji: "🐟" },
+    { id: "coral", wordEn: "coral", wordTh: "ปะการัง", phonetic: "/ˈkɔːr.əl/", x: 41.91, y: 34.28, emoji: "🪸" },
+    { id: "turtle", wordEn: "turtle", wordTh: "เต่าทะเล", phonetic: "/ˈtɜː.təl/", x: 34.24, y: 17.28, emoji: "🐢" },
+    { id: "octopus", wordEn: "octopus", wordTh: "ปลาหมึกยักษ์", phonetic: "/ˈɒk.tə.pəs/", x: 11.91, y: 32.44, emoji: "🐙" },
+    { id: "shark", wordEn: "shark", wordTh: "ฉลาม", phonetic: "/ʃɑːrk/", x: 69.58, y: 21.61, emoji: "🦈" },
+    { id: "submarine", wordEn: "submarine", wordTh: "เรือดำน้ำ", phonetic: "/ˌsʌb.məˈriːn/", x: 27.41, y: 59.28, emoji: "🚢" },
+    { id: "seaweed", wordEn: "seaweed", wordTh: "สาหร่ายทะเล", phonetic: "/ˈsiː.wiːd/", x: 79.91, y: 73.44, emoji: "🌿" },
+    { id: "treasure_chest", wordEn: "treasure chest", wordTh: "หีบสมบัติ", phonetic: "/ˈtreʒ.ər tʃest/", x: 53.24, y: 78.44, emoji: "🏴‍☠️" },
+    { id: "diver", wordEn: "diver", wordTh: "นักดำน้ำ", phonetic: "/ˈdaɪ.vər/", x: 69.08, y: 54.44, emoji: "🤿" },
+    { id: "seashell", wordEn: "seashell", wordTh: "เปลือกหอย", phonetic: "/ˈsiː.ʃel/", x: 41.41, y: 96.28, emoji: "🐚" },
+    { id: "jellyfish", wordEn: "jellyfish", wordTh: "แมงกะพรุน", phonetic: "/ˈdʒel.i.fɪʃ/", x: 90.74, y: 49.28, emoji: "🪼" },
+    { id: "starfish", wordEn: "starfish", wordTh: "ปลาดาว", phonetic: "/ˈstɑː.fɪʃ/", x: 51.08, y: 91.94, emoji: "⭐" }
   ]
 };
 
@@ -334,20 +334,20 @@ const OFFICE_SCENE = {
   nameTh: "ที่ทำงาน",
   image: "assets/office_scene.png",
   desc: "Explore a busy office floor! Find computers, desks, files, and chairs.",
-  corgi: { x: 50.0, y: 50.0, radius: 3 },
+  corgi: { x: 79.08, y: 75.78, radius: 5 },
   vocabulary: [
-    { id: "desk",             wordEn: "desk",             wordTh: "โต๊ะทำงาน",         phonetic: "/desk/",              x: 25.0, y: 55.0, emoji: "🪑" },
-    { id: "computer",         wordEn: "computer",         wordTh: "คอมพิวเตอร์",       phonetic: "/kəmˈpjuː.t̬ər/",      x: 35.0, y: 40.0, emoji: "🖥️" },
-    { id: "keyboard",         wordEn: "keyboard",         wordTh: "คีย์บอร์ด",          phonetic: "/ˈkiː.bɔːrd/",        x: 45.0, y: 45.0, emoji: "⌨️" },
-    { id: "mouse",            wordEn: "mouse",            wordTh: "เมาส์",            phonetic: "/maʊs/",              x: 52.0, y: 45.0, emoji: "🖱️" },
-    { id: "office_chair",     wordEn: "chair",            wordTh: "เก้าอี้สำนักงาน",     phonetic: "/tʃer/",              x: 20.0, y: 65.0, emoji: "🪑" },
-    { id: "filing_cabinet",   wordEn: "cabinet",          wordTh: "ตู้เก็บเอกสาร",     phonetic: "/ˈkæb.ə.nət/",        x: 75.0, y: 35.0, emoji: "🗄️" },
-    { id: "printer",          wordEn: "printer",          wordTh: "เครื่องพิมพ์",        phonetic: "/ˈprɪn.tər/",         x: 85.0, y: 40.0, emoji: "🖨️" },
-    { id: "calendar",         wordEn: "calendar",         wordTh: "ปฏิทิน",            phonetic: "/ˈkæl.ən.dər/",       x: 62.0, y: 25.0, emoji: "📅" },
-    { id: "notebook",         wordEn: "notebook",         wordTh: "สมุดโน้ต",          phonetic: "/ˈnoʊt.bʊk/",         x: 65.0, y: 60.0, emoji: "📓" },
-    { id: "coffee_mug",       wordEn: "coffee mug",       wordTh: "แก้วกาแฟ",          phonetic: "/ˈkɑː.fi mʌɡ/",       x: 70.0, y: 60.0, emoji: "☕" },
-    { id: "telephone",        wordEn: "telephone",        wordTh: "โทรศัพท์",          phonetic: "/ˈtel.ə.foʊn/",       x: 58.0, y: 55.0, emoji: "☎️" },
-    { id: "pen_holder",       wordEn: "pen holder",       wordTh: "ที่เสียบปากกา",      phonetic: "/pen ˈhoʊl.dər/",     x: 80.0, y: 60.0, emoji: "✏️" }
+    { id: "desk", wordEn: "desk", wordTh: "โต๊ะทำงาน", phonetic: "/desk/", x: 8.67, y: 43, emoji: "🪑" },
+    { id: "computer", wordEn: "computer", wordTh: "คอมพิวเตอร์", phonetic: "/kəmˈpjuː.t̬ər/", x: 28.91, y: 32.44, emoji: "🖥️" },
+    { id: "keyboard", wordEn: "keyboard", wordTh: "คีย์บอร์ด", phonetic: "/ˈkiː.bɔːrd/", x: 28.41, y: 82.61, emoji: "⌨️" },
+    { id: "mouse", wordEn: "mouse", wordTh: "เมาส์", phonetic: "/maʊs/", x: 40.41, y: 88.78, emoji: "🖱️" },
+    { id: "office_chair", wordEn: "chair", wordTh: "เก้าอี้สำนักงาน", phonetic: "/tʃer/", x: 96.08, y: 65.11, emoji: "🪑" },
+    { id: "filing_cabinet", wordEn: "cabinet", wordTh: "ตู้เก็บเอกสาร", phonetic: "/ˈkæb.ə.nət/", x: 58.74, y: 29.61, emoji: "🗄️" },
+    { id: "printer", wordEn: "printer", wordTh: "เครื่องพิมพ์", phonetic: "/ˈprɪn.tər/", x: 70.41, y: 36.94, emoji: "🖨️" },
+    { id: "calendar", wordEn: "calendar", wordTh: "ปฏิทิน", phonetic: "/ˈkæl.ən.dər/", x: 76.41, y: 20.78, emoji: "📅" },
+    { id: "notebook", wordEn: "notebook", wordTh: "สมุดโน้ต", phonetic: "/ˈnoʊt.bʊk/", x: 6.24, y: 74.28, emoji: "📓" },
+    { id: "coffee_mug", wordEn: "coffee mug", wordTh: "แก้วกาแฟ", phonetic: "/ˈkɑː.fi mʌɡ/", x: 26.58, y: 76.44, emoji: "☕" },
+    { id: "telephone", wordEn: "telephone", wordTh: "โทรศัพท์", phonetic: "/ˈtel.ə.foʊn/", x: 55.41, y: 84.94, emoji: "☎️" },
+    { id: "pen_holder", wordEn: "pen holder", wordTh: "ที่เสียบปากกา", phonetic: "/pen ˈhoʊl.dər/", x: 47.08, y: 83.11, emoji: "✏️" }
   ]
 };
 
@@ -357,20 +357,20 @@ const CANTEEN_SCENE = {
   nameTh: "โรงอาหาร",
   image: "assets/canteen_scene.png",
   desc: "Visit the busy canteen! Spot food stalls, dining tables, plates, and trays.",
-  corgi: { x: 50.0, y: 50.0, radius: 3 },
+  corgi: { x: 81.91, y: 64.28, radius: 5 },
   vocabulary: [
-    { id: "dining_table",     wordEn: "dining table",     wordTh: "โต๊ะอาหาร",         phonetic: "/ˈdaɪ.nɪŋ ˌteɪ.bəl/", x: 25.0, y: 65.0, emoji: "🪑" },
-    { id: "tray",             wordEn: "tray",             wordTh: "ถาดหลุม",          phonetic: "/treɪ/",              x: 15.0, y: 60.0, emoji: "🍽️" },
-    { id: "water_dispenser",  wordEn: "water dispenser",  wordTh: "ตู้น้ำดื่ม",         phonetic: "/ˈwɔː.tər dɪˈspen.sər/",x: 78.0, y: 40.0, emoji: "🚰" },
-    { id: "food_stall",       wordEn: "food stall",       wordTh: "ร้านอาหาร",         phonetic: "/fuːd stɔːl/",         x: 50.0, y: 35.0, emoji: "🏪" },
-    { id: "plate",            wordEn: "plate",            wordTh: "จานอาหาร",          phonetic: "/pleɪt/",             x: 35.0, y: 70.0, emoji: "🍽️" },
-    { id: "spoon",            wordEn: "spoon",            wordTh: "ช้อน",             phonetic: "/spuːn/",             x: 42.0, y: 72.0, emoji: "🥄" },
-    { id: "fork",             wordEn: "fork",             wordTh: "ส้อม",             phonetic: "/fɔːrk/",             x: 46.0, y: 72.0, emoji: "🍴" },
-    { id: "juice_box",        wordEn: "juice box",        wordTh: "กล่องน้ำผลไม้",      phonetic: "/dʒuːs bɑːks/",       x: 52.0, y: 70.0, emoji: "🧃" },
-    { id: "bowl",             wordEn: "bowl",             wordTh: "ชาม",              phonetic: "/boʊl/",              x: 65.0, y: 70.0, emoji: "🥣" },
-    { id: "napkin",           wordEn: "napkin",           wordTh: "กระดาษทิชชู",       phonetic: "/ˈnæp.kɪn/",          x: 72.0, y: 68.0, emoji: "🧻" },
-    { id: "queue_line",       wordEn: "queue",            wordTh: "แถวคิว",            phonetic: "/kjuː/",              x: 82.0, y: 60.0, emoji: "🚶" },
-    { id: "trash_bin",        wordEn: "trash bin",        wordTh: "ถังขยะ",            phonetic: "/træʃ bɪn/",          x: 88.0, y: 80.0, emoji: "🗑️" }
+    { id: "dining_table", wordEn: "dining table", wordTh: "โต๊ะอาหาร", phonetic: "/ˈdaɪ.nɪŋ ˌteɪ.bəl/", x: 12.4, y: 84.47, emoji: "🪑" },
+    { id: "tray", wordEn: "tray", wordTh: "ถาดหลุม", phonetic: "/treɪ/", x: 87.24, y: 54.11, emoji: "🍽️" },
+    { id: "water_dispenser", wordEn: "water dispenser", wordTh: "ตู้น้ำดื่ม", phonetic: "/ˈwɔː.tər dɪˈspen.sər/", x: 46.91, y: 28.61, emoji: "🚰" },
+    { id: "food_stall", wordEn: "food stall", wordTh: "ร้านอาหาร", phonetic: "/fuːd stɔːl/", x: 72.93, y: 15.93, emoji: "🏪" },
+    { id: "plate", wordEn: "plate", wordTh: "จานอาหาร", phonetic: "/pleɪt/", x: 23.91, y: 87.94, emoji: "🍽️" },
+    { id: "spoon", wordEn: "spoon", wordTh: "ช้อน", phonetic: "/spuːn/", x: 30.93, y: 83.93, emoji: "🥄" },
+    { id: "fork", wordEn: "fork", wordTh: "ส้อม", phonetic: "/fɔːrk/", x: 27.24, y: 84.78, emoji: "🍴" },
+    { id: "juice_box", wordEn: "juice box", wordTh: "กล่องน้ำผลไม้", phonetic: "/dʒuːs bɑːks/", x: 3.41, y: 51.61, emoji: "🧃" },
+    { id: "bowl", wordEn: "bowl", wordTh: "ชาม", phonetic: "/boʊl/", x: 31.41, y: 74.78, emoji: "🥣" },
+    { id: "napkin", wordEn: "napkin", wordTh: "กระดาษทิชชู", phonetic: "/ˈnæp.kɪn/", x: 56.74, y: 69.44, emoji: "🧻" },
+    { id: "queue_line", wordEn: "queue", wordTh: "แถวคิว", phonetic: "/kjuː/", x: 58.74, y: 53.44, emoji: "🚶" },
+    { id: "trash_bin", wordEn: "trash bin", wordTh: "ถังขยะ", phonetic: "/træʃ bɪn/", x: 92.24, y: 68.94, emoji: "🗑️" }
   ]
 };
 
@@ -380,20 +380,20 @@ const POLICE_STATION_SCENE = {
   nameTh: "สถานีตำรวจ",
   image: "assets/police_station_scene.png",
   desc: "Step inside the local police station! Find officers, police cars, and sirens.",
-  corgi: { x: 50.0, y: 50.0, radius: 3 },
+  corgi: { x: 52.41, y: 48.28, radius: 5 },
   vocabulary: [
-    { id: "policeman",        wordEn: "police officer",   wordTh: "เจ้าหน้าที่ตำรวจ",     phonetic: "/pəˈliːs ˌɑː.fɪ.sər/", x: 25.0, y: 50.0, emoji: "👮" },
-    { id: "police_car",       wordEn: "police car",       wordTh: "รถตำรวจ",           phonetic: "/pəˈliːs kɑːr/",       x: 85.0, y: 75.0, emoji: "🚓" },
-    { id: "badge",            wordEn: "badge",            wordTh: "ตราตำรวจ",          phonetic: "/bædʒ/",              x: 60.0, y: 25.0, emoji: "👮" },
-    { id: "handcuffs",        wordEn: "handcuffs",        wordTh: "กุญแจมือ",          phonetic: "/ˈhænd.kʌfs/",        x: 35.0, y: 60.0, emoji: "⛓️" },
-    { id: "jail_cell",        wordEn: "jail cell",        wordTh: "ห้องขัง",           phonetic: "/dʒeɪl sel/",         x: 15.0, y: 40.0, emoji: "🚪" },
-    { id: "desk",             wordEn: "desk",             wordTh: "โต๊ะทำงาน",         phonetic: "/desk/",              x: 48.0, y: 60.0, emoji: "🪑" },
-    { id: "computer",         wordEn: "computer",         wordTh: "คอมพิวเตอร์",       phonetic: "/kəmˈpjuː.t̬ər/",      x: 58.0, y: 55.0, emoji: "🖥️" },
-    { id: "siren",            wordEn: "siren",            wordTh: "ไซเรน",            phonetic: "/ˈsaɪr.ən/",          x: 82.0, y: 35.0, emoji: "🚨" },
-    { id: "telephone",        wordEn: "telephone",        wordTh: "โทรศัพท์",          phonetic: "/ˈtel.ə.foʊn/",       x: 68.0, y: 58.0, emoji: "☎️" },
-    { id: "map",              wordEn: "map",              wordTh: "แผนที่เมือง",         phonetic: "/mæp/",               x: 10.0, y: 25.0, emoji: "🗺️" },
-    { id: "walkie_talkie",    wordEn: "walkie-talkie",    wordTh: "วิทยุสื่อสาร",        phonetic: "/ˌwɔː.kiˈtɔː.ki/",     x: 72.0, y: 60.0, emoji: "📻" },
-    { id: "megaphone",        wordEn: "megaphone",        wordTh: "โทรโข่ง",           phonetic: "/ˈmeɡ.ə.foʊn/",       x: 80.0, y: 60.0, emoji: "📢" }
+    { id: "policeman", wordEn: "police officer", wordTh: "เจ้าหน้าที่ตำรวจ", phonetic: "/pəˈliːs ˌɑː.fɪ.sər/", x: 67.08, y: 68.11, emoji: "👮" },
+    { id: "police_car", wordEn: "police car", wordTh: "รถตำรวจ", phonetic: "/pəˈliːs kɑːr/", x: 16.41, y: 38.78, emoji: "🚓" },
+    { id: "badge", wordEn: "badge", wordTh: "ตราตำรวจ", phonetic: "/bædʒ/", x: 25.41, y: 81.44, emoji: "👮" },
+    { id: "handcuffs", wordEn: "handcuffs", wordTh: "กุญแจมือ", phonetic: "/ˈhænd.kʌfs/", x: 65.24, y: 88.11, emoji: "⛓️" },
+    { id: "jail_cell", wordEn: "jail cell", wordTh: "ห้องขัง", phonetic: "/dʒeɪl sel/", x: 66.4, y: 32.87, emoji: "🚪" },
+    { id: "desk", wordEn: "desk", wordTh: "โต๊ะทำงาน", phonetic: "/desk/", x: 47.41, y: 65.94, emoji: "🪑" },
+    { id: "computer", wordEn: "computer", wordTh: "คอมพิวเตอร์", phonetic: "/kəmˈpjuː.t̬ər/", x: 42.24, y: 58.44, emoji: "🖥️" },
+    { id: "siren", wordEn: "siren", wordTh: "ไซเรน", phonetic: "/ˈsaɪr.ən/", x: 71.91, y: 9.61, emoji: "🚨" },
+    { id: "telephone", wordEn: "telephone", wordTh: "โทรศัพท์", phonetic: "/ˈtel.ə.foʊn/", x: 37.91, y: 84.28, emoji: "☎️" },
+    { id: "map", wordEn: "map", wordTh: "แผนที่เมือง", phonetic: "/mæp/", x: 16.08, y: 65.11, emoji: "🗺️" },
+    { id: "walkie_talkie", wordEn: "walkie-talkie", wordTh: "วิทยุสื่อสาร", phonetic: "/ˌwɔː.kiˈtɔː.ki/", x: 37.41, y: 73.61, emoji: "📻" },
+    { id: "megaphone", wordEn: "megaphone", wordTh: "โทรโข่ง", phonetic: "/ˈmeɡ.ə.foʊn/", x: 91.58, y: 32.94, emoji: "📢" }
   ]
 };
 
@@ -403,18 +403,18 @@ const AIRPORT_SCENE = {
   nameTh: "สนามบิน",
   image: "assets/airport_scene.png",
   desc: "Explore a busy airport terminal! Find airplanes, luggage, and control towers.",
-  corgi: { x: 50.0, y: 50.0, radius: 3 },
+  corgi: { x: 86.74, y: 56.61, radius: 5 },
   vocabulary: [
-    { id: "airplane",          wordEn: "airplane",         wordTh: "เครื่องบิน",          phonetic: "/ˈer.pleɪn/",         x: 20.0, y: 25.0, emoji: "✈️" },
-    { id: "luggage",           wordEn: "luggage",          wordTh: "กระเป๋าเดินทาง",      phonetic: "/ˈlʌɡ.ɪdʒ/",          x: 35.0, y: 75.0, emoji: "🧳" },
-    { id: "control_tower",     wordEn: "control tower",    wordTh: "หอบังคับการบิน",     phonetic: "/kənˈtroʊl ˌtaʊ.ər/", x: 50.0, y: 30.0, emoji: "🏢" },
-    { id: "runway",            wordEn: "runway",           wordTh: "รันเวย์",            phonetic: "/ˈrʌn.weɪ/",          x: 75.0, y: 30.0, emoji: "🛫" },
-    { id: "security_scanner",  wordEn: "security scanner",  wordTh: "เครื่องสแกนความปลอดภัย", phonetic: "/səˈkjʊr.ə.ti ˈskæn.ər/", x: 15.0, y: 65.0, emoji: "🔍" },
-    { id: "boarding_pass",     wordEn: "boarding pass",     wordTh: "บัตรผ่านขึ้นเครื่อง",     phonetic: "/ˈbɔːr.dɪŋ pæs/",     x: 55.0, y: 65.0, emoji: "🎫" },
-    { id: "passport",          wordEn: "passport",         wordTh: "หนังสือเดินทาง",      phonetic: "/ˈpæs.pɔːrt/",        x: 65.0, y: 65.0, emoji: "🛂" },
-    { id: "luggage_carousel",  wordEn: "luggage carousel",  wordTh: "สายพานรับกระเป๋า",    phonetic: "/ˈlʌɡ.ɪdʒ ˌkær.əˈsel/", x: 30.0, y: 80.0, emoji: "🧳" },
-    { id: "flight_board",      wordEn: "flight board",      wordTh: "ตารางเที่ยวบิน",       phonetic: "/flaɪt bɔːrd/",       x: 82.0, y: 40.0, emoji: "📋" },
-    { id: "tarmac_bus",        wordEn: "tarmac bus",        wordTh: "รถบัสรันเวย์",         phonetic: "/ˈtɑːr.mæk bʌs/",     x: 85.0, y: 80.0, emoji: "🚌" }
+    { id: "airplane", wordEn: "airplane", wordTh: "เครื่องบิน", phonetic: "/ˈer.pleɪn/", x: 20.58, y: 31.78, emoji: "✈️" },
+    { id: "luggage", wordEn: "luggage", wordTh: "กระเป๋าเดินทาง", phonetic: "/ˈlʌɡ.ɪdʒ/", x: 64.91, y: 72.44, emoji: "🧳" },
+    { id: "control_tower", wordEn: "control tower", wordTh: "หอบังคับการบิน", phonetic: "/kənˈtroʊl ˌtaʊ.ər/", x: 70.24, y: 21.44, emoji: "🏢" },
+    { id: "runway", wordEn: "runway", wordTh: "รันเวย์", phonetic: "/ˈrʌn.weɪ/", x: 21.74, y: 17.11, emoji: "🛫" },
+    { id: "security_scanner", wordEn: "security scanner", wordTh: "เครื่องสแกนความปลอดภัย", phonetic: "/səˈkjʊr.ə.ti ˈskæn.ər/", x: 33.41, y: 62.44, emoji: "🔍" },
+    { id: "boarding_pass", wordEn: "boarding pass", wordTh: "บัตรผ่านขึ้นเครื่อง", phonetic: "/ˈbɔːr.dɪŋ pæs/", x: 47.24, y: 98.11, emoji: "🎫" },
+    { id: "passport", wordEn: "passport", wordTh: "หนังสือเดินทาง", phonetic: "/ˈpæs.pɔːrt/", x: 41.58, y: 94.28, emoji: "🛂" },
+    { id: "luggage_carousel", wordEn: "luggage carousel", wordTh: "สายพานรับกระเป๋า", phonetic: "/ˈlʌɡ.ɪdʒ ˌkær.əˈsel/", x: 70.24, y: 84.78, emoji: "🧳" },
+    { id: "flight_board", wordEn: "flight board", wordTh: "ตารางเที่ยวบิน", phonetic: "/flaɪt bɔːrd/", x: 50.91, y: 50.61, emoji: "📋" },
+    { id: "tarmac_bus", wordEn: "tarmac bus", wordTh: "รถบัสรันเวย์", phonetic: "/ˈtɑːr.mæk bʌs/", x: 46.41, y: 38.44, emoji: "🚌" }
   ]
 };
 

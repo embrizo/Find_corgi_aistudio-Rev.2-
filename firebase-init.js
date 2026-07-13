@@ -3,18 +3,17 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously, signOu
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDF92fpEUTaCY2MYRj-23DNQ3hiF3ZhOQQ",
-  authDomain: "find-corgi.firebaseapp.com",
-  projectId: "find-corgi",
-  storageBucket: "find-corgi.firebasestorage.app",
-  messagingSenderId: "931296813432",
-  appId: "1:931296813432:web:36076504687ae48338a88d",
-  measurementId: "G-682HCDL3RP"
+  apiKey: "AIzaSyAQXD_OCusfdTggMf6f9ZZhIBrfNxlbnAU",
+  authDomain: "hidden-capsule-n6tp2.firebaseapp.com",
+  projectId: "hidden-capsule-n6tp2",
+  storageBucket: "hidden-capsule-n6tp2.firebasestorage.app",
+  messagingSenderId: "588331211644",
+  appId: "1:588331211644:web:d5833a911e8cd2e6bf62f9"
 };
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const db = getFirestore(app, "ai-studio-findcorgiaistudi-0cb39447-b443-4c5b-9873-21632e3f6bb2");
 
 export const provider = new GoogleAuthProvider();
 provider.setCustomParameters({

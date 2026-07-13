@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🐾</text></svg>'>
   <title>Admin — Find the Corgi 🐾</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -438,16 +439,31 @@
     import { ALL_SCENES } from './scenes.js';
     import { db, auth, ADMIN_EMAILS } from './firebase-init.js';
     import { onAuthStateChanged } from 'firebase/auth';
-    import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+    import { collection, getDocs, doc, updateDoc, setDoc, deleteField } from 'firebase/firestore';
 
-    onAuthStateChanged(auth, async (user) => {
+    let sceneConfigs = {};
+onAuthStateChanged(auth, async (user) => {
       if (!user || !user.email || !ADMIN_EMAILS.includes(user.email)) {
         alert("Unauthorized access. Only admins can view this page.");
         window.location.href = "/index.html";
       } else {
+        await fetchConfigs();
+        renderStats();
+        renderScenes();
         fetchUsers();
       }
     });
+
+    async function fetchConfigs() {
+      try {
+        const snap = await getDocs(collection(db, "configs"));
+        snap.forEach(d => {
+          sceneConfigs[d.id] = d.data();
+        });
+      } catch (e) {
+        console.error("Error fetching configs:", e);
+      }
+    }
 
     async function fetchUsers() {
       const tbody = document.getElementById('users-table-body');
@@ -499,17 +515,18 @@
         });
       } catch (e) {
         console.error(e);
-        tbody.innerHTML = '<tr><td colspan="4" style="padding: 16px; text-align: center; color: var(--red);">Error loading users.</td></tr>';
+        tbody.innerHTML = `<tr><td colspan="4" style="padding: 16px; text-align: center; color: var(--red);">Error loading users: ${e.message}</td></tr>`;
       }
     }
 
     /* ── helpers ── */
     function getImgSrc(scene) {
+      if (sceneConfigs[scene.id] && sceneConfigs[scene.id].image) return sceneConfigs[scene.id].image;
       return localStorage.getItem('image_override_' + scene.id) || scene.image;
     }
 
     function hasOverride(sceneId) {
-      return !!localStorage.getItem('image_override_' + sceneId);
+      return !!(sceneConfigs[sceneId] && sceneConfigs[sceneId].image) || !!localStorage.getItem('image_override_' + sceneId);
     }
 
     function showToast(msg) {
@@ -536,30 +553,71 @@
     }
 
     /* ── image upload handler ── */
-    function handleFile(file, scene, imgEl, badgeEl) {
+    async function handleFile(file, scene, imgEl, badgeEl) {
       if (!file || !file.type.startsWith('image/')) {
         showToast('⚠️ Please select an image file.');
         return;
       }
       const reader = new FileReader();
-      reader.onload = (ev) => {
-        localStorage.setItem('image_override_' + scene.id, ev.target.result);
-        imgEl.src = ev.target.result;
-        badgeEl.classList.add('visible');
-        showToast(`✅ Image updated for "${scene.nameEn}"`);
-        renderStats();
+      reader.onload = async (ev) => {
+        let base64 = ev.target.result;
+        // Optionally resize using canvas to save space (max 1200px width)
+        const img = new Image();
+        img.src = base64;
+        img.onload = async () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const max_size = 1200;
+          if (width > max_size || height > max_size) {
+             if (width > height) {
+                 height *= max_size / width;
+                 width = max_size;
+             } else {
+                 width *= max_size / height;
+                 height = max_size;
+             }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressed = canvas.toDataURL('image/webp', 0.85);
+          
+          try {
+            await setDoc(doc(db, "configs", scene.id), { image: compressed }, { merge: true });
+            if (!sceneConfigs[scene.id]) sceneConfigs[scene.id] = {};
+            sceneConfigs[scene.id].image = compressed;
+            imgEl.src = compressed;
+            badgeEl.classList.add('visible');
+            showToast(`✅ Image updated for "${scene.nameEn}"`);
+            renderStats();
+          } catch(e) {
+            console.error(e);
+            showToast('❌ Error saving to Firestore. Document may be too large.');
+          }
+        };
       };
       reader.readAsDataURL(file);
     }
 
     /* ── reset image ── */
-    function resetImage(sceneId, imgEl, badgeEl) {
-      localStorage.removeItem('image_override_' + sceneId);
-      const scene = ALL_SCENES.find(s => s.id === sceneId);
-      imgEl.src = scene.image;
-      badgeEl.classList.remove('visible');
-      showToast('🗑️ Reverted to default image');
-      renderStats();
+    async function resetImage(sceneId, imgEl, badgeEl) {
+      try {
+        await setDoc(doc(db, "configs", sceneId), { image: deleteField() }, { merge: true });
+        if (sceneConfigs[sceneId]) {
+           delete sceneConfigs[sceneId].image;
+        }
+        localStorage.removeItem('image_override_' + sceneId);
+        const scene = ALL_SCENES.find(s => s.id === sceneId);
+        imgEl.src = scene.image;
+        badgeEl.classList.remove('visible');
+        showToast('🗑️ Reverted to default image');
+        renderStats();
+      } catch (e) {
+         console.error(e);
+         showToast('❌ Error resetting image.');
+      }
     }
 
     /* ── render scene cards ── */
@@ -622,8 +680,6 @@
       });
     }
 
-    renderStats();
-    renderScenes();
   </script>
 </body>
 </html>

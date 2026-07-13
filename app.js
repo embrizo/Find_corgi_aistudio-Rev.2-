@@ -7,7 +7,7 @@ import { ALL_SCENES } from './scenes.js';
 import { gameState, sceneRef } from './state.js';
 import { auth, db, signInWithGoogle, signInAsGuest, logOut, ADMIN_EMAILS } from './firebase-init.js';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, getDoc, serverTimestamp, collection, getDocs } from 'firebase/firestore';
 
 // ─── 1. ACTIVE SCENE accessor (reads/writes sceneRef.active) ─────────────────
 // quiz.js also imports sceneRef from state.js — no circular dependency.
@@ -18,6 +18,7 @@ function setActiveScene(scene) { sceneRef.active = scene; }
 // (replaces `activeScene` variable references)
 
 function getSceneImage(scene) {
+  if (sceneConfigs[scene.id] && sceneConfigs[scene.id].image) return sceneConfigs[scene.id].image;
   return localStorage.getItem("image_override_" + scene.id) || scene.image;
 }
 
@@ -66,9 +67,10 @@ function speakWord(text) {
 }
 
 // ─── 4. INIT ──────────────────────────────────────────────────────────────────
+let currentUserUid = null;
+let sceneConfigs = {};
 document.addEventListener("DOMContentLoaded", () => {
   initSpeech();
-  loadProgress();
   initViewport();
   setupEventListeners();
 
@@ -98,6 +100,23 @@ document.addEventListener("DOMContentLoaded", () => {
       // Save user to Firestore
       try {
         const uid = user.uid;
+        currentUserUid = uid;
+        loadProgress();
+        try {
+          const snap = await getDocs(collection(db, "configs"));
+          snap.forEach(d => {
+             const sceneId = d.id;
+             sceneConfigs[sceneId] = d.data();
+             // Apply vocab and corgi overrides if they exist in firestore
+             // Wait, if we export code, they are in scenes.js. If we want we can apply them here.
+             const scene = ALL_SCENES.find(s => s.id === sceneId);
+             if (scene && d.data().vocab) scene.vocabulary = d.data().vocab;
+             if (scene && d.data().corgi) scene.corgi = d.data().corgi;
+          });
+        } catch(e) {
+          console.error("Could not load configs from firestore", e);
+        }
+        window.renderHomeScreen();
         
         let province = "Unknown";
         try {
@@ -262,33 +281,50 @@ function isSceneCleared(sceneId) {
 
 // ─── 6. PROGRESS PERSISTENCE ──────────────────────────────────────────────────
 function loadProgress() {
+  if (!currentUserUid) return;
   try {
-    const raw = localStorage.getItem("find_the_corgi_progress");
+    let raw = localStorage.getItem(`find_the_corgi_progress_${currentUserUid}`);
+    if (!raw) {
+      // Migrate old global progress if it exists
+      const oldGlobal = localStorage.getItem("find_the_corgi_progress");
+      if (oldGlobal) {
+        raw = oldGlobal;
+        localStorage.setItem(`find_the_corgi_progress_${currentUserUid}`, raw);
+        // We do NOT remove old global so it can be migrated for another user if they share the same browser
+      }
+    }
+    
     if (raw) {
       const saved = JSON.parse(raw);
-
       // discoveredWords — handle legacy format (old single-scene array)
       if (Array.isArray(saved.discoveredWords)) {
         gameState.discoveredWords.street = saved.discoveredWords;
       } else if (saved.discoveredWords) {
         gameState.discoveredWords = { ...gameState.discoveredWords, ...saved.discoveredWords };
       }
-
       // corgiFound — handle legacy format (old single boolean)
       if (typeof saved.corgiFound === "boolean") {
         gameState.corgiFound.street = saved.corgiFound;
       } else if (saved.corgiFound) {
         gameState.corgiFound = { ...gameState.corgiFound, ...saved.corgiFound };
       }
-
       // quizPassed — per-scene pass tracking (new field)
       if (saved.quizPassed) {
         gameState.quizPassed = { ...gameState.quizPassed, ...saved.quizPassed };
       }
-
       gameState.stickers    = saved.stickers    || [];
       gameState.quizHistory = saved.quizHistory || [];
       gameState.reviewWords = saved.reviewWords || [];
+    } else {
+      // Reset state for new user
+      import('./scenes.js').then(({ ALL_SCENES }) => {
+         gameState.discoveredWords = Object.fromEntries(ALL_SCENES.map(s => [s.id, []]));
+         gameState.corgiFound = Object.fromEntries(ALL_SCENES.map(s => [s.id, false]));
+         gameState.quizPassed = Object.fromEntries(ALL_SCENES.map(s => [s.id, false]));
+         gameState.stickers = [];
+         gameState.quizHistory = [];
+         gameState.reviewWords = [];
+      });
     }
   } catch (e) {
     console.warn("Could not load progress:", e);
@@ -296,8 +332,10 @@ function loadProgress() {
 }
 
 function saveProgress() {
-  localStorage.setItem("find_the_corgi_progress", JSON.stringify(gameState));
+  if (!currentUserUid) return;
+  localStorage.setItem(`find_the_corgi_progress_${currentUserUid}`, JSON.stringify(gameState));
 }
+
 
 // ─── 7. SIDEBAR RENDERING ─────────────────────────────────────────────────────
 function renderSidebar() {
@@ -740,7 +778,7 @@ function setupEventListeners() {
   document.getElementById("btn-reset-confirm").addEventListener("click", () => {
     closeModal("reset-confirm-modal");
     closeModal("parent-dashboard-modal");
-    localStorage.removeItem("find_the_corgi_progress");
+    if (currentUserUid) localStorage.removeItem(`find_the_corgi_progress_${currentUserUid}`);
     location.reload();
   });
 
