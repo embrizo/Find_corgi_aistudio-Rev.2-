@@ -5,7 +5,7 @@
 
 import { ALL_SCENES } from './scenes.js';
 import { gameState, sceneRef } from './state.js';
-import { auth, db, signInWithGoogle, signInAsGuest, logOut, ADMIN_EMAILS } from './firebase-init.js';
+import { auth, db, signInWithGoogle, signInWithGoogleRedirect, signInAsGuest, logOut, ADMIN_EMAILS } from './firebase-init.js';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, setDoc, getDoc, serverTimestamp, collection, getDocs } from 'firebase/firestore';
 
@@ -57,12 +57,19 @@ function initSpeech() {
 function speakWord(text) {
   const synth = window.speechSynthesis;
   if (!synth) return;
-  synth.cancel();
+  
+  if (synth.speaking) {
+    synth.cancel();
+  }
+  
   const utt = new SpeechSynthesisUtterance(text);
   utt.lang  = "en-US";
   utt.rate  = 0.88;
   utt.pitch = 1.05;
+  utt.volume = 1;
   if (preferredVoice) utt.voice = preferredVoice;
+  
+  if (synth.resume) synth.resume();
   synth.speak(utt);
 }
 
@@ -75,7 +82,27 @@ document.addEventListener("DOMContentLoaded", () => {
   setupEventListeners();
 
   document.getElementById('btn-login-google').addEventListener('click', () => {
-    signInWithGoogle().catch(err => alert("Google Login Error: " + err.message));
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const isEmbedded = /Line|FBAV|FBAN|Instagram/i.test(navigator.userAgent);
+    if (isEmbedded) {
+      alert("Please tap the menu button (•••) and select 'Open in Browser' (Safari/Chrome) to log in with Google.");
+      return;
+    }
+    if (isMobile) {
+      // Mobile browsers (especially Safari and in-app browsers like LINE) strictly block popups.
+      // Use redirect instead of popup.
+      signInWithGoogleRedirect().catch(err => {
+        alert("Google Login Error: " + err.message);
+      });
+    } else {
+      signInWithGoogle().catch(err => {
+        if (err.code === 'auth/popup-blocked') {
+          alert("Pop-ups are blocked in this browser. Please allow popups or open the app in a standard browser.");
+        } else {
+          alert("Google Login Error: " + err.message);
+        }
+      });
+    }
   });
   document.getElementById('btn-login-guest').addEventListener('click', () => {
     signInAsGuest().catch(err => {
@@ -598,25 +625,31 @@ function updateProgressUI() {
   document.getElementById("progress-fill").style.width   = `${(count / total) * 100}%`;
 
   const btn     = document.getElementById("btn-start-quiz");
+  const btnMob  = document.getElementById("btn-start-quiz-mobile");
   const tipEl   = document.getElementById("quiz-tip-text");
   const needed  = 5;
   const isCorgiFound = gameState.corgiFound[activeScene.id] || false;
   const ready   = count >= needed && isCorgiFound;
 
-  btn.disabled = !ready;
+  if (btn) btn.disabled = !ready;
+  if (btnMob) btnMob.disabled = !ready;
 
   if (ready) {
-    btn.innerHTML = "🏁 Start Corgi Quiz!";
-    tipEl.textContent = "You're ready! Take the quiz 🎉";
+    if (btn) btn.innerHTML = "🏁 Start Corgi Quiz!";
+    if (btnMob) btnMob.innerHTML = "🏁 Quiz!";
+    if (tipEl) tipEl.textContent = "You're ready! Take the quiz 🎉";
   } else if (!isCorgiFound && count < needed) {
-    btn.innerHTML = "🔒 Unlock Corgi Quiz";
-    tipEl.textContent = `Find the Corgi & ${needed - count} more word${needed - count !== 1 ? "s" : ""}!`;
+    if (btn) btn.innerHTML = "🔒 Unlock Corgi Quiz";
+    if (btnMob) btnMob.innerHTML = "🔒 Quiz";
+    if (tipEl) tipEl.textContent = `Find the Corgi & ${needed - count} more word${needed - count !== 1 ? "s" : ""}!`;
   } else if (!isCorgiFound) {
-    btn.innerHTML = "🔒 Find the hidden Corgi";
-    tipEl.textContent = "Almost there — find the Corgi!";
+    if (btn) btn.innerHTML = "🔒 Find the hidden Corgi";
+    if (btnMob) btnMob.innerHTML = "🔒 Quiz";
+    if (tipEl) tipEl.textContent = "Almost there — find the Corgi!";
   } else {
-    btn.innerHTML = `🔒 Find ${needed - count} more word${needed - count !== 1 ? "s" : ""}`;
-    tipEl.textContent = `Discover ${needed - count} more word${needed - count !== 1 ? "s" : ""} to unlock!`;
+    if (btn) btn.innerHTML = `🔒 Find ${needed - count} more word${needed - count !== 1 ? "s" : ""}`;
+    if (btnMob) btnMob.innerHTML = "🔒 Quiz";
+    if (tipEl) tipEl.textContent = `Discover ${needed - count} more word${needed - count !== 1 ? "s" : ""} to unlock!`;
   }
 }
 
@@ -728,6 +761,13 @@ function setupEventListeners() {
 
   // Also close when quiz button is clicked
   document.getElementById("btn-start-quiz").addEventListener("click", () => {
+    if (window.innerWidth <= 860) {
+      sidebar.classList.remove("open");
+      backdrop.classList.add("hidden");
+    }
+  });
+  const btnMob = document.getElementById("btn-start-quiz-mobile");
+  if (btnMob) btnMob.addEventListener("click", () => {
     if (window.innerWidth <= 860) {
       sidebar.classList.remove("open");
       backdrop.classList.add("hidden");
@@ -878,6 +918,7 @@ window.loadScene = loadScene;
 // Wire quiz button after quiz.js loads (breaks circular dependency — quiz.js imports from state.js not app.js)
 import('./quiz.js').then(({ initQuiz }) => {
   document.getElementById('btn-start-quiz')?.addEventListener('click', initQuiz);
+  document.getElementById('btn-start-quiz-mobile')?.addEventListener('click', initQuiz);
   document.getElementById('btn-exit-quiz')?.addEventListener('click', () => {
     document.getElementById('quiz-overlay')?.classList.add('hidden');
   });

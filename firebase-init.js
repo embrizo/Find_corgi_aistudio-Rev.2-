@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously, signOut, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signInAnonymously, signOut, onAuthStateChanged } from 'firebase/auth';
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -21,7 +22,13 @@ provider.setCustomParameters({
   prompt: 'select_account'
 });
 
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('6LeW_lAtAAAAANH2ClcLyQbTnvpgKc7iLcsvIR3M'), 
+  isTokenAutoRefreshEnabled: true 
+});
+
 export const signInWithGoogle = () => signInWithPopup(auth, provider);
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider);
 export const signInAsGuest = () => signInAnonymously(auth);
 export const logOut = () => signOut(auth);
 
