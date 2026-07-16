@@ -54,6 +54,7 @@ function initSpeech() {
   }
 }
 
+let _activeUtterance = null;
 function speakWord(text) {
   const synth = window.speechSynthesis;
   if (!synth) return;
@@ -62,15 +63,18 @@ function speakWord(text) {
     synth.cancel();
   }
   
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang  = "en-US";
-  utt.rate  = 0.88;
-  utt.pitch = 1.05;
-  utt.volume = 1;
-  if (preferredVoice) utt.voice = preferredVoice;
-  
-  if (synth.resume) synth.resume();
-  synth.speak(utt);
+  // Timeout and global reference workaround for Android Chrome TTS bug
+  setTimeout(() => {
+    _activeUtterance = new SpeechSynthesisUtterance(text);
+    _activeUtterance.lang  = "en-US";
+    _activeUtterance.rate  = 0.88;
+    _activeUtterance.pitch = 1.05;
+    _activeUtterance.volume = 1;
+    if (preferredVoice) _activeUtterance.voice = preferredVoice;
+    
+    if (synth.resume) synth.resume();
+    synth.speak(_activeUtterance);
+  }, 50);
 }
 
 // ─── 4. INIT ──────────────────────────────────────────────────────────────────
@@ -925,3 +929,13 @@ import('./quiz.js').then(({ initQuiz }) => {
 });
 
 export { saveProgress, openModal, closeModal, speakWord, triggerConfetti, updateProgressUI, renderSidebar };
+
+let _ttsInitialized = false;
+document.addEventListener('pointerdown', () => {
+  if (!_ttsInitialized && window.speechSynthesis) {
+    const u = new SpeechSynthesisUtterance("");
+    u.volume = 0;
+    window.speechSynthesis.speak(u);
+    _ttsInitialized = true;
+  }
+}, { once: true });
