@@ -32,49 +32,102 @@ const MAP_SIZE = 1000;
 const MIN_SCALE = 0.6;
 const MAX_SCALE = 4.0;
 
-// ─── 3. SPEECH SYNTHESIS ──────────────────────────────────────────────────────
+// ─── 3. SPEECH SYNTHESIS (Android 16 compatible) ─────────────────────────────
 let preferredVoice = null;
+let _audioUnlocked = false;     // Set to true after first user touch
+let _activeUtterance = null;
+let _synthKeepAliveTimer = null;
+
+/**
+ * Pick the best English voice. Called eagerly and again on voiceschanged.
+ * Retries up to 5 times with 300 ms spacing if the list is still empty
+ * (common on Android Chrome where voices load asynchronously).
+ */
+function _pickVoice(retries = 5) {
+  const synth = window.speechSynthesis;
+  if (!synth) return;
+  const voices = synth.getVoices();
+  if (voices.length === 0 && retries > 0) {
+    setTimeout(() => _pickVoice(retries - 1), 300);
+    return;
+  }
+  preferredVoice =
+    voices.find(v => v.lang.startsWith("en") && v.name.includes("Google")) ||
+    voices.find(v => v.lang.startsWith("en") && v.localService === false) ||
+    voices.find(v => v.lang.startsWith("en")) ||
+    null;
+}
 
 function initSpeech() {
   const synth = window.speechSynthesis;
   if (!synth) return;
-
-  function pickVoice() {
-    const voices = synth.getVoices();
-    preferredVoice =
-      voices.find(v => v.lang.startsWith("en") && v.name.includes("Google")) ||
-      voices.find(v => v.lang.startsWith("en") && v.localService === false) ||
-      voices.find(v => v.lang.startsWith("en")) ||
-      null;
+  _pickVoice();
+  // Also listen for the async load event (Android Chrome fires this late)
+  if (typeof synth.onvoiceschanged !== 'undefined') {
+    synth.onvoiceschanged = () => {
+      _pickVoice();
+      synth.onvoiceschanged = null;
+    };
   }
 
-  pickVoice();
-  if (!preferredVoice) {
-    synth.onvoiceschanged = () => { pickVoice(); synth.onvoiceschanged = null; };
-  }
+  // Keep-alive: Android Chrome pauses/kills the synth queue in background;
+  // pausing then resuming every 10 s prevents the silent-queue bug.
+  if (_synthKeepAliveTimer) clearInterval(_synthKeepAliveTimer);
+  _synthKeepAliveTimer = setInterval(() => {
+    if (synth.speaking) {
+      synth.pause();
+      synth.resume();
+    }
+  }, 10000);
 }
 
-let _activeUtterance = null;
+/**
+ * Speak text. Robust against Android 16 autoplay policy:
+ * - Waits for audio unlock if the user hasn't touched the screen yet.
+ * - Force-cancels any stalled/stuck queue before speaking.
+ * - Keeps a global reference so the utterance isn't GC'd mid-speech.
+ */
 function speakWord(text) {
   const synth = window.speechSynthesis;
   if (!synth) return;
-  
-  if (synth.speaking) {
+
+  // Android 16 / Chrome autoplay: must have user gesture first
+  if (!_audioUnlocked) {
+    // Queue the speech for after the next touch
+    const _pendingText = text;
+    const unlockAndSpeak = () => {
+      document.removeEventListener('pointerdown', unlockAndSpeak);
+      speakWord(_pendingText);
+    };
+    document.addEventListener('pointerdown', unlockAndSpeak, { once: true });
+    return;
+  }
+
+  // Cancel any currently speaking or queued utterance
+  if (synth.speaking || synth.pending) {
     synth.cancel();
   }
-  
-  // Timeout and global reference workaround for Android Chrome TTS bug
+
+  // Small delay after cancel so Android Chrome can flush its queue
   setTimeout(() => {
     _activeUtterance = new SpeechSynthesisUtterance(text);
-    _activeUtterance.lang  = "en-US";
-    _activeUtterance.rate  = 0.88;
-    _activeUtterance.pitch = 1.05;
+    _activeUtterance.lang   = "en-US";
+    _activeUtterance.rate   = 0.88;
+    _activeUtterance.pitch  = 1.05;
     _activeUtterance.volume = 1;
     if (preferredVoice) _activeUtterance.voice = preferredVoice;
-    
-    if (synth.resume) synth.resume();
+
+    // Stall-detection: if onend hasn't fired within 8 s, reset synth
+    const stallGuard = setTimeout(() => {
+      if (synth.speaking) synth.cancel();
+    }, 8000);
+    _activeUtterance.onend = () => clearTimeout(stallGuard);
+    _activeUtterance.onerror = () => clearTimeout(stallGuard);
+
+    // Resume first (Android pauses synth when tab goes to background)
+    if (synth.paused) synth.resume();
     synth.speak(_activeUtterance);
-  }, 50);
+  }, 80);
 }
 
 // ─── 4. INIT ──────────────────────────────────────────────────────────────────
@@ -930,12 +983,30 @@ import('./quiz.js').then(({ initQuiz }) => {
 
 export { saveProgress, openModal, closeModal, speakWord, triggerConfetti, updateProgressUI, renderSidebar };
 
-let _ttsInitialized = false;
+// ── Android 16 Audio Unlock ──────────────────────────────────────────────────
+// The first user touch (pointerdown) unlocks both the AudioContext and the
+// SpeechSynthesis engine. A silent 0-volume utterance "warms up" the TTS
+// pipeline so subsequent real words play immediately.
 document.addEventListener('pointerdown', () => {
-  if (!_ttsInitialized && window.speechSynthesis) {
-    const u = new SpeechSynthesisUtterance("");
-    u.volume = 0;
-    window.speechSynthesis.speak(u);
-    _ttsInitialized = true;
+  if (_audioUnlocked) return;
+  _audioUnlocked = true;
+
+  const synth = window.speechSynthesis;
+  if (synth) {
+    // Warm-up: silent utterance primes the TTS engine on Android
+    const warmUp = new SpeechSynthesisUtterance("");
+    warmUp.volume = 0;
+    warmUp.lang = "en-US";
+    synth.speak(warmUp);
   }
+
+  // Also try to unlock Web Audio (used by some sound effects)
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const buf = ctx.createBuffer(1, 1, 22050);
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    src.start(0);
+  } catch(e) { /* non-critical */ }
 }, { once: true });
