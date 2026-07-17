@@ -55,6 +55,9 @@
         <a id="btn-adjust-pins-home" href="/calibrate.html" class="btn btn-secondary hidden" style="background: #2b2d42; color: #4ea8de; border-color: rgba(78,168,222,0.3); text-decoration: none;">
           <span>🎯</span> Adjust Pins
         </a>
+        <button id="btn-home-chat" class="btn btn-secondary">
+          <span>🤖</span> Chat
+        </button>
         <button id="btn-home-stickers" class="btn btn-secondary">
           <span>🏆</span> Sticker Book
         </button>
@@ -105,6 +108,9 @@
 
       <!-- Action Buttons -->
       <div class="header-actions">
+        <button id="btn-chatbot" class="btn btn-secondary">
+          <span>🤖</span> Chat
+        </button>
         <button id="btn-adjust-pins" class="btn btn-secondary hidden" style="background: #2b2d42; color: #4ea8de; border-color: rgba(78,168,222,0.3);">
           <span>🎯</span> Adjust Pins
         </button>
@@ -167,6 +173,25 @@
   </div>
 
   <!-- ================= MODALS & OVERLAYS ================= -->
+
+  <!-- Chatbot Overlay -->
+  <div id="chat-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="chat-title">
+    <div class="modal-card chat-card animate-pop">
+      <div class="chat-header">
+        <h2 id="chat-title">🤖 Chat with AI</h2>
+        <button id="btn-close-chat" class="modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="chat-body" id="chat-messages">
+        <div class="chat-message assistant">
+          <p>Hi there! I'm your learning assistant. Ask me anything about English, Thai, or this game!</p>
+        </div>
+      </div>
+      <div class="chat-footer">
+        <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off">
+        <button id="btn-send-chat" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </div>
 
   <!-- 1. Vocabulary Word Card Detail Modal -->
   <div id="vocab-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="vocab-title-en">

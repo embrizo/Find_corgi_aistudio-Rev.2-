@@ -8,6 +8,7 @@ import { gameState, sceneRef } from './state.js';
 import { auth, db, signInWithGoogle, signInWithGoogleRedirect, signInAsGuest, logOut, ADMIN_EMAILS } from './firebase-init.js';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, setDoc, getDoc, serverTimestamp, collection, getDocs } from 'firebase/firestore';
+import { initChat } from './chat.js';
 
 // ─── 1. ACTIVE SCENE accessor (reads/writes sceneRef.active) ─────────────────
 // quiz.js also imports sceneRef from state.js — no circular dependency.
@@ -137,6 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initSpeech();
   initViewport();
   setupEventListeners();
+  initChat();
 
   document.getElementById('btn-login-google').addEventListener('click', () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
