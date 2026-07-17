@@ -3,6 +3,19 @@
    Add, remove, or modify scenes here. Changes apply automatically to game & calibrator.
    ========================================================================== */
 
+/**
+ * Convert an image path into a URL that works both at the site root and when
+ * Vite serves the app from a configured base path. Uploaded data/blob URLs
+ * and remote URLs must pass through unchanged.
+ */
+export function resolveAssetUrl(value) {
+  if (!value || typeof value !== "string") return value;
+  if (/^(?:data:|blob:|https?:|\/\/)/i.test(value)) return value;
+
+  const base = new URL(import.meta.env.BASE_URL || "/", document.baseURI);
+  return new URL(value.replace(/^\.\//, ""), base).href;
+}
+
 const STREET_SCENE = {
   id: "street",
   nameEn: "The Street",

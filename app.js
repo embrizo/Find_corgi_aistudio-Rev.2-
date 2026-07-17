@@ -3,7 +3,7 @@
    REVISED: Scene definitions moved to scenes.js for modularity.
    ========================================================================== */
 
-import { ALL_SCENES } from './scenes.js';
+import { ALL_SCENES, resolveAssetUrl } from './scenes.js';
 import { gameState, sceneRef } from './state.js';
 import { auth, db, signInWithGoogle, signInWithGoogleRedirect, signInAsGuest, logOut, ADMIN_EMAILS } from './firebase-init.js';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -19,8 +19,9 @@ function setActiveScene(scene) { sceneRef.active = scene; }
 // (replaces `activeScene` variable references)
 
 function getSceneImage(scene) {
-  if (sceneConfigs[scene.id] && sceneConfigs[scene.id].image) return sceneConfigs[scene.id].image;
-  return localStorage.getItem("image_override_" + scene.id) || scene.image;
+  const configuredImage = sceneConfigs[scene.id] && sceneConfigs[scene.id].image;
+  const image = configuredImage || localStorage.getItem("image_override_" + scene.id) || scene.image;
+  return resolveAssetUrl(image);
 }
 
 // ─── 2. PAN & ZOOM STATE ──────────────────────────────────────────────────────
@@ -322,7 +323,7 @@ window.renderHomeScreen = function renderHomeScreen() {
     card.className = "scene-card";
     card.innerHTML = `
       <div class="scene-card-preview">
-        <img src="${getSceneImage(scene)}" alt="${scene.nameEn}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <img src="${getSceneImage(scene)}" alt="${scene.nameEn}" onload="this.style.display='block'; this.nextElementSibling.style.display='none';" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="fallback-placeholder" style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center; flex-direction: column; color: #475569; font-weight: bold; font-family: var(--font-title); font-size: 18px; text-align: center; background-color: #cbd5e1; padding: 20px;">
           <span style="font-size: 32px; margin-bottom: 8px;">🖼️</span>
           <span>${scene.nameEn}</span>
@@ -363,7 +364,16 @@ function loadScene(sceneId) {
   if (imgEl) imgEl.style.display = 'block';
   if (fallbackEl) fallbackEl.style.display = 'none';
 
-  document.getElementById("scene-image").src = getSceneImage(activeScene);
+  const sceneImage = document.getElementById("scene-image");
+  sceneImage.src = getSceneImage(activeScene);
+  sceneImage.onload = () => {
+    sceneImage.style.display = 'block';
+    fallbackEl.style.display = 'none';
+  };
+  sceneImage.onerror = () => {
+    sceneImage.style.display = 'none';
+    fallbackEl.style.display = 'flex';
+  };
   
   document.getElementById("active-scene-title").textContent = activeScene.nameEn;
   document.getElementById("active-scene-subtitle").textContent = activeScene.nameTh;
@@ -754,7 +764,7 @@ async function renderStickerBook() {
 
     let mediaHtml = "";
     if (sticker.image) {
-      mediaHtml = `<img src="${sticker.image}" alt="${sticker.title}">`;
+      mediaHtml = `<img src="${resolveAssetUrl(sticker.image)}" alt="${sticker.title}">`;
     } else {
       mediaHtml = `<span class="sticker-emoji-placeholder">${sticker.emoji}</span>`;
     }

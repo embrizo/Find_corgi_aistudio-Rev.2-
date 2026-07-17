@@ -436,7 +436,7 @@
 
 
   <script type="module">
-    import { ALL_SCENES } from './scenes.js';
+    import { ALL_SCENES, resolveAssetUrl } from './scenes.js';
     import { db, auth, ADMIN_EMAILS } from './firebase-init.js';
     import { onAuthStateChanged } from 'firebase/auth';
     import { collection, getDocs, doc, updateDoc, setDoc, deleteField } from 'firebase/firestore';
@@ -521,8 +521,8 @@ onAuthStateChanged(auth, async (user) => {
 
     /* ── helpers ── */
     function getImgSrc(scene) {
-      if (sceneConfigs[scene.id] && sceneConfigs[scene.id].image) return sceneConfigs[scene.id].image;
-      return localStorage.getItem('image_override_' + scene.id) || scene.image;
+      const configuredImage = sceneConfigs[scene.id] && sceneConfigs[scene.id].image;
+      return resolveAssetUrl(configuredImage || localStorage.getItem('image_override_' + scene.id) || scene.image);
     }
 
     function hasOverride(sceneId) {
@@ -610,7 +610,7 @@ onAuthStateChanged(auth, async (user) => {
         }
         localStorage.removeItem('image_override_' + sceneId);
         const scene = ALL_SCENES.find(s => s.id === sceneId);
-        imgEl.src = scene.image;
+        imgEl.src = resolveAssetUrl(scene.image);
         badgeEl.classList.remove('visible');
         showToast('🗑️ Reverted to default image');
         renderStats();
@@ -634,7 +634,7 @@ onAuthStateChanged(auth, async (user) => {
         card.className = 'admin-scene-card';
         card.innerHTML = `
           <div class="scene-img-wrapper" id="wrap-${scene.id}">
-            <img src="${imgSrc}" alt="${scene.nameEn}" id="img-${scene.id}">
+            <img src="${imgSrc}" alt="${scene.nameEn}" id="img-${scene.id}" onerror="this.style.opacity='0.25';">
             <div class="scene-img-overlay">
               <label class="upload-label" for="file-${scene.id}">📸 Upload</label>
               <input type="file" id="file-${scene.id}" accept="image/*" style="display:none">
