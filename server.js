@@ -42,7 +42,7 @@ async function startServer() {
 
       // Convert messages to the format expected by chat
       const chat = ai.chats.create({
-        model: "gemini-3.5-flash",
+        model: "gemini-3.1-flash-lite",
         config: {
           systemInstruction,
         }
@@ -62,7 +62,7 @@ async function startServer() {
       }));
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-3.1-flash-lite",
         contents: contents,
         config: {
           systemInstruction,

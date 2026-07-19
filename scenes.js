@@ -11,9 +11,8 @@
 export function resolveAssetUrl(value) {
   if (!value || typeof value !== "string") return value;
   if (/^(?:data:|blob:|https?:|\/\/)/i.test(value)) return value;
-
-  const base = new URL(import.meta.env.BASE_URL || "/", document.baseURI);
-  return new URL(value.replace(/^\.\//, ""), base).href;
+  if (value.startsWith('/')) return value;
+  return '/' + value;
 }
 
 const STREET_SCENE = {
