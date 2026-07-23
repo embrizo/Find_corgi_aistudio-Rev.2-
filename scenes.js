@@ -21,6 +21,7 @@ const STREET_SCENE = {
   nameTh: "ถนน",
   image: "assets/street_scene.png",
   desc: "Explore a busy city street! Find vehicles, shops, and the hidden Corgi.",
+  descTh: "สำรวจถนนในเมืองที่พลุกพล่าน! ตามหารถยนต์ ร้านค้า และคอร์กี้ที่ซ่อนอยู่",
   corgi: { x: 44.5, y: 33.8, radius: 5 },
   vocabulary: [
     { id: "fire_engine",   wordEn: "fire engine",   wordTh: "รถดับเพลิง",       phonetic: "/ˈfaɪər ˌen.dʒɪn/",   x: 25.87, y: 73.67, emoji: "🚒" },
@@ -47,6 +48,7 @@ const FARM_SCENE = {
   nameTh: "ฟาร์ม",
   image: "assets/farm_scene.png",
   desc: "Explore a sunny farmyard! Spot friendly animals, fields, and a tractor.",
+  descTh: "สำรวจฟาร์มในวันแดดจ้า! พบสัตว์แสนน่ารัก ทุ่งนา และรถแทรกเตอร์",
   corgi: { x: 93.07, y: 72.6, radius: 5 },
   vocabulary: [
     { id: "tractor",    wordEn: "tractor",    wordTh: "รถแทรกเตอร์",   phonetic: "/ˈtræk.tər/",      x: 40.8, y: 49.93, emoji: "🚜" },
@@ -70,6 +72,7 @@ const BEACH_SCENE = {
   nameTh: "ชายหาด",
   image: "assets/beach_scene.png",
   desc: "Spend a warm day at the beach! Find sea creatures, sandcastles, and boats.",
+  descTh: "ใช้เวลาวันแดดอบอุ่นที่ชายหาด! ตามหาสัตว์ทะเล ปราสาททราย และเรือ",
   corgi: { x: 81.33, y: 67.4, radius: 5 },
   vocabulary: [
     { id: "sandcastle", wordEn: "sandcastle", wordTh: "ปราสาททราย", phonetic: "/ˈsændˌkæs.əl/", x: 41.33, y: 59.13, emoji: "🏰" },
@@ -93,6 +96,7 @@ const KITCHEN_SCENE = {
   nameTh: "ห้องครัว",
   image: "assets/kitchen_scene.png",
   desc: "Step inside the busy kitchen! Look for appliances, cooking pots, and tasty bread.",
+  descTh: "ก้าวเข้าสู่ห้องครัวที่พลุกพล่าน! มองหาเครื่องใช้ไฟฟ้า หม้อทำอาหาร และขนมปังแสนอร่อย",
   corgi: { x: 56.93, y: 61.53, radius: 5 },
   vocabulary: [
     { id: "refrigerator", wordEn: "refrigerator", wordTh: "ตู้เย็น", phonetic: "/rɪˈfrɪdʒ.ə.reɪ.tər/", x: 11.07, y: 45.53, emoji: "🧊" },
@@ -116,6 +120,7 @@ const CLASSROOM_SCENE = {
   nameTh: "ห้องเรียน",
   image: "assets/classroom_scene.png",
   desc: "Time for school! Discover books, pencils, learning globes, and classroom desks.",
+  descTh: "ได้เวลาไปโรงเรียนแล้ว! ค้นพบหนังสือ ดินสอ ลูกโลก และโต๊ะเรียน",
   corgi: { x: 47.73, y: 74.2, radius: 5 },
   vocabulary: [
     { id: "blackboard",  wordEn: "blackboard",  wordTh: "กระดานดำ",      phonetic: "/ˈblæk.bɔːrd/",    x: 25.73, y: 20.2, emoji: "📋" },
@@ -139,6 +144,7 @@ const PARK_SCENE = {
   nameTh: "สวนสาธารณะ",
   image: "assets/park_scene.png",
   desc: "Have fun outdoors in the park! Spot slides, swings, flying kites, and trees.",
+  descTh: "สนุกกลางแจ้งที่สวนสาธารณะ! พบกระดานลื่น ชิงช้า ว่าว และต้นไม้",
   corgi: { x: 48.93, y: 90.87, radius: 5 },
   vocabulary: [
     { id: "slide",      wordEn: "slide",      wordTh: "กระดานลื่น",     phonetic: "/slaɪd/",          x: 14.53, y: 44.73, emoji: "🛝" },
@@ -162,6 +168,7 @@ const THEME_PARK_SCENE = {
   nameTh: "สวนสนุก",
   image: "assets/theme_park_scene.png",
   desc: "Have a thrilling day at the amusement park! Spot roller coasters, rides, and treats.",
+  descTh: "ตื่นเต้นสนุกสนานที่สวนสนุก! พบรถไฟเหาะ เครื่องเล่น และของอร่อยต่างๆ",
   corgi: { x: 38, y: 49.27, radius: 5 },
   vocabulary: [
     { id: "roller_coaster", wordEn: "roller coaster", wordTh: "รถไฟเหาะ",     phonetic: "/ˈroʊ.lər ˌkoʊ.stər/", x: 19.6, y: 30.73, emoji: "🎢" },
@@ -185,6 +192,7 @@ const SUPERMARKET_SCENE = {
   nameTh: "ซูเปอร์มาร์เก็ต",
   image: "assets/supermarket_scene.png",
   desc: "Go shopping at the local supermarket! Find fresh food, shopping carts, and cashiers.",
+  descTh: "ไปช้อปปิ้งที่ซูเปอร์มาร์เก็ต! ตามหาอาหารสด รถเข็น และแคชเชียร์",
   corgi: { x: 19.47, y: 45.93, radius: 5 },
   vocabulary: [
     { id: "shopping_cart", wordEn: "shopping cart", wordTh: "รถเข็นช้อปปิ้ง", phonetic: "/ˈʃɑː.pɪŋ ˌkɑːrt/", x: 36.93, y: 80.6, emoji: "🛒" },
@@ -208,6 +216,7 @@ const HOTEL_SCENE = {
   nameTh: "โรงแรม",
   image: "assets/hotel_scene.png",
   desc: "Explore the cozy hotel! Spot the lobby reception desk, suitcases, and beds.",
+  descTh: "สำรวจโรงแรมแสนอบอุ่น! พบเคาน์เตอร์ต้อนรับ กระเป๋าเดินทาง และเตียงนอน",
   corgi: { x: 75.07, y: 87, radius: 5 },
   vocabulary: [
     { id: "bed", wordEn: "bed", wordTh: "เตียงนอน", phonetic: "/bed/", x: 63.47, y: 79.8, emoji: "🛏️" },
@@ -231,6 +240,7 @@ const HOSPITAL_SCENE = {
   nameTh: "โรงพยาบาล",
   image: "assets/hospital_scene.png",
   desc: "Visit the busy hospital! Find doctors, nurses, wheelchairs, and ambulances.",
+  descTh: "ไปเยี่ยมโรงพยาบาลที่พลุกพล่าน! พบคุณหมอ พยาบาล รถเข็นผู้ป่วย และรถพยาบาล",
   corgi: { x: 48.4, y: 67.53, radius: 5 },
   vocabulary: [
     { id: "doctor", wordEn: "doctor", wordTh: "คุณหมอ", phonetic: "/ˈdɑːk.tər/", x: 78.67, y: 39.4, emoji: "👨⚕️" },
@@ -254,6 +264,7 @@ const THEATER_SCENE = {
   nameTh: "โรงละคร",
   image: "assets/theater_scene.png",
   desc: "Enjoy a show at the grand theater! Spot stage spotlights, curtains, and actors.",
+  descTh: "เพลิดเพลินกับการแสดงในโรงละคร! พบไฟสปอตไลท์ ม่านเวที และนักแสดง",
   corgi: { x: 21.24, y: 63.61, radius: 5 },
   vocabulary: [
     { id: "stage", wordEn: "stage", wordTh: "เวที", phonetic: "/steɪdʒ/", x: 58.91, y: 69.94, emoji: "🎭" },
@@ -277,6 +288,7 @@ const AIRPLANE_SCENE = {
   nameTh: "บนเครื่องบิน",
   image: "assets/airplane_scene.png",
   desc: "Fly high in the sky! Spot seats, flight attendants, and the airplane wing.",
+  descTh: "บินสูงกลางท้องฟ้า! พบที่นั่ง พนักงานต้อนรับบนเครื่องบิน และปีกเครื่องบิน",
   corgi: { x: 59.24, y: 88.28, radius: 5 },
   vocabulary: [
     { id: "airplane", wordEn: "airplane", wordTh: "เครื่องบิน", phonetic: "/ˈer.pleɪn/", x: 19.08, y: 94.28, emoji: "✈️" },
@@ -300,6 +312,7 @@ const SHIP_SCENE = {
   nameTh: "เรือเดินสมุทร",
   image: "assets/ship_scene.png",
   desc: "Sail the open seas! Look for anchors, lifebuoys, and the ship's captain.",
+  descTh: "แล่นเรือกลางทะเลกว้าง! มองหาสมอเรือ ห่วงยางชูชีพ และกัปตันเรือ",
   corgi: { x: 80.91, y: 86.28, radius: 5 },
   vocabulary: [
     { id: "cruise_ship", wordEn: "cruise ship", wordTh: "เรือสำราญ", phonetic: "/ˈkruːz ʃɪp/", x: 43.08, y: 43.78, emoji: "🚢" },
@@ -323,6 +336,7 @@ const UNDERWATER_SCENE = {
   nameTh: "ใต้ท้องทะเล",
   image: "assets/underwater_scene.png",
   desc: "Dive deep under the sea! Discover coral reefs, turtles, and hidden treasure.",
+  descTh: "ดำดิ่งลงใต้ท้องทะเล! ค้นพบปะการัง เต่าทะเล และสมบัติที่ซ่อนอยู่",
   corgi: { x: 78.08, y: 92.61, radius: 5 },
   vocabulary: [
     { id: "fish", wordEn: "fish", wordTh: "ปลา", phonetic: "/fɪʃ/", x: 20.91, y: 9.11, emoji: "🐟" },
@@ -346,6 +360,7 @@ const OFFICE_SCENE = {
   nameTh: "ที่ทำงาน",
   image: "assets/office_scene.png",
   desc: "Explore a busy office floor! Find computers, desks, files, and chairs.",
+  descTh: "สำรวจสำนักงานที่พลุกพล่าน! ตามหาคอมพิวเตอร์ โต๊ะทำงาน แฟ้มเอกสาร และเก้าอี้",
   corgi: { x: 79.08, y: 75.78, radius: 5 },
   vocabulary: [
     { id: "desk", wordEn: "desk", wordTh: "โต๊ะทำงาน", phonetic: "/desk/", x: 8.67, y: 43, emoji: "🪑" },
@@ -369,6 +384,7 @@ const CANTEEN_SCENE = {
   nameTh: "โรงอาหาร",
   image: "assets/canteen_scene.png",
   desc: "Visit the busy canteen! Spot food stalls, dining tables, plates, and trays.",
+  descTh: "ไปเยี่ยมโรงอาหารที่พลุกพล่าน! พบร้านอาหาร โต๊ะอาหาร จาน และถาด",
   corgi: { x: 81.91, y: 64.28, radius: 5 },
   vocabulary: [
     { id: "dining_table", wordEn: "dining table", wordTh: "โต๊ะอาหาร", phonetic: "/ˈdaɪ.nɪŋ ˌteɪ.bəl/", x: 12.4, y: 84.47, emoji: "🪑" },
@@ -392,6 +408,7 @@ const POLICE_STATION_SCENE = {
   nameTh: "สถานีตำรวจ",
   image: "assets/police_station_scene.png",
   desc: "Step inside the local police station! Find officers, police cars, and sirens.",
+  descTh: "ก้าวเข้าสู่สถานีตำรวจ! ตามหาเจ้าหน้าที่ตำรวจ รถตำรวจ และไซเรน",
   corgi: { x: 52.41, y: 48.28, radius: 5 },
   vocabulary: [
     { id: "policeman", wordEn: "police officer", wordTh: "เจ้าหน้าที่ตำรวจ", phonetic: "/pəˈliːs ˌɑː.fɪ.sər/", x: 67.08, y: 68.11, emoji: "👮" },
@@ -415,6 +432,7 @@ const AIRPORT_SCENE = {
   nameTh: "สนามบิน",
   image: "assets/airport_scene.png",
   desc: "Explore a busy airport terminal! Find airplanes, luggage, and control towers.",
+  descTh: "สำรวจอาคารผู้โดยสารสนามบิน! ตามหาเครื่องบิน กระเป๋าเดินทาง และหอบังคับการบิน",
   corgi: { x: 86.74, y: 56.61, radius: 5 },
   vocabulary: [
     { id: "airplane", wordEn: "airplane", wordTh: "เครื่องบิน", phonetic: "/ˈer.pleɪn/", x: 20.58, y: 31.78, emoji: "✈️" },

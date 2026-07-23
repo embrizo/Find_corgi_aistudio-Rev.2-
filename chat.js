@@ -1,3 +1,5 @@
+import { t } from './i18n.js';
+
 export function initChat() {
   const btnChatbot = document.getElementById("btn-chatbot");
   const modalChat = document.getElementById("chat-modal");
@@ -44,7 +46,7 @@ export function initChat() {
     // Show loading
     const loadingDiv = document.createElement("div");
     loadingDiv.className = "chat-message assistant loading";
-    loadingDiv.innerHTML = "<p>Thinking...</p>";
+    loadingDiv.innerHTML = `<p>${t('chat_thinking')}</p>`;
     chatMessages.appendChild(loadingDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -64,11 +66,11 @@ export function initChat() {
         appendMessage("assistant", data.reply);
         messages.push({ role: "model", content: data.reply });
       } else {
-        appendMessage("assistant", "Sorry, I had trouble processing that.");
+        appendMessage("assistant", t('chat_error_processing'));
       }
     } catch (err) {
       chatMessages.removeChild(loadingDiv);
-      appendMessage("assistant", "Network error. Please try again later.");
+      appendMessage("assistant", t('chat_error_network'));
     } finally {
       chatInput.disabled = false;
       btnSendChat.disabled = false;

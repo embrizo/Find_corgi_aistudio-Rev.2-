@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🐾</text></svg>'>
-  <title>Find the Corgi - 1000 Words English-Thai App 🐾</title>
+  <title data-i18n="app_title">Find the Corgi - 1000 Words English-Thai App 🐾</title>
   <meta name="description" content="An interactive English-Thai vocabulary app for children. Find the hidden Corgi and learn 1,000 words!">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,23 +16,27 @@
 
   <!-- ================= AUTHENTICATION SCREEN ================= -->
   <div id="auth-screen" class="screen-container" style="display: flex; align-items: center; justify-content: center; background: var(--bg-app); background-image: radial-gradient(circle at center, var(--secondary-light) 0%, var(--bg-app) 100%); z-index: 1000; position: fixed; inset: 0;">
-    <div class="modal-card animate-pop" style="text-align: center; max-width: 420px; padding: 48px 32px; z-index: 10; box-shadow: var(--shadow-lg); border: 4px solid white;">
+    <div class="modal-card animate-pop" style="text-align: center; max-width: 420px; padding: 48px 32px; z-index: 10; box-shadow: var(--shadow-lg); border: 4px solid white; position: relative;">
+      <select class="lang-select" title="Language" style="position: absolute; top: 16px; right: 16px; padding: 6px 10px; border-radius: var(--radius-md); border: 2px solid #e2e8f0; font-weight: 600; font-size: 13px; cursor: pointer; background: white; color: var(--text-dark);">
+        <option value="en">🇬🇧 English</option>
+        <option value="th">🇹🇭 ไทย</option>
+      </select>
       <div style="font-size: 64px; margin-bottom: -10px; animation: popIn 0.5s ease-out;">🐶</div>
-      <h2 style="font-family: var(--font-title); font-size: 36px; margin-bottom: 8px; color: var(--primary);">Find the Corgi!</h2>
-      <p style="margin-bottom: 32px; color: var(--text-dark); font-size: 16px; font-weight: 500;">Learn English & Thai vocabulary!</p>
-      
+      <h2 data-i18n="auth_title" style="font-family: var(--font-title); font-size: 36px; margin-bottom: 8px; color: var(--primary);">Find the Corgi!</h2>
+      <p data-i18n="auth_subtitle" style="margin-bottom: 32px; color: var(--text-dark); font-size: 16px; font-weight: 500;">Learn English & Thai vocabulary!</p>
+
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <button id="btn-login-google" class="btn" style="background: white; color: var(--text-dark); border: 2px solid #e2e8f0; display: flex; align-items: center; justify-content: center; gap: 12px; font-weight: 600; padding: 14px 24px; border-radius: var(--radius-lg); cursor: pointer; transition: var(--transition);">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 20px; height: 20px;">
-          Log in with Google
+          <span data-i18n="btn_login_google">Log in with Google</span>
         </button>
         <div style="display: flex; align-items: center; gap: 12px; color: var(--text-muted); font-size: 14px; margin: 4px 0;">
           <div style="flex: 1; height: 1px; background: #e2e8f0;"></div>
-          <span>OR</span>
+          <span data-i18n="auth_or">OR</span>
           <div style="flex: 1; height: 1px; background: #e2e8f0;"></div>
         </div>
         <button id="btn-login-guest" class="btn btn-secondary">
-          Play as Guest 🐾
+          <span data-i18n="btn_login_guest">Play as Guest 🐾</span>
         </button>
       </div>
     </div>
@@ -43,32 +47,36 @@
     <header class="home-header">
       <div class="home-logo">
         <span class="logo-emoji">🐾</span>
-        <h1>Find the Corgi!</h1>
-        <p class="subtitle">1,000 Words English-Thai Learning Game</p>
+        <h1 data-i18n="auth_title">Find the Corgi!</h1>
+        <p class="subtitle" data-i18n="home_subtitle">1,000 Words English-Thai Learning Game</p>
       </div>
       <div class="home-actions">
+        <select class="lang-select" title="Language" style="padding: 8px 12px; border-radius: var(--radius-md); border: 2px solid #e2e8f0; font-weight: 600; cursor: pointer; background: white; color: var(--text-dark);">
+          <option value="en">🇬🇧 English</option>
+          <option value="th">🇹🇭 ไทย</option>
+        </select>
         <span id="user-welcome" style="align-self: center; font-weight: bold; margin-right: 12px; color: var(--text-dark);"></span>
-        <button id="btn-logout" class="btn btn-secondary">Log Out</button>
+        <button id="btn-logout" class="btn btn-secondary" data-i18n="btn_logout">Log Out</button>
         <a id="btn-admin-dashboard" href="/admin.html" class="btn btn-secondary hidden" style="background: #2b2d42; color: #ffd166; border-color: rgba(255,209,102,0.3); text-decoration: none;">
-          <span>⚙️</span> Admin Dashboard
+          <span>⚙️</span> <span data-i18n="btn_admin_dashboard">Admin Dashboard</span>
         </a>
         <a id="btn-adjust-pins-home" href="/calibrate.html" class="btn btn-secondary hidden" style="background: #2b2d42; color: #4ea8de; border-color: rgba(78,168,222,0.3); text-decoration: none;">
-          <span>🎯</span> Adjust Pins
+          <span>🎯</span> <span data-i18n="btn_adjust_pins">Adjust Pins</span>
         </a>
         <button id="btn-home-chat" class="btn btn-secondary">
-          <span>🤖</span> Chat
+          <span>🤖</span> <span data-i18n="btn_chat">Chat</span>
         </button>
         <button id="btn-home-stickers" class="btn btn-secondary">
-          <span>🏆</span> Sticker Book
+          <span>🏆</span> <span data-i18n="btn_stickers">Sticker Book</span>
         </button>
         <button id="btn-home-parent" class="btn btn-secondary hidden">
-          <span>🔒</span> Parents Only
+          <span>🔒</span> <span data-i18n="btn_parents_only">Parents Only</span>
         </button>
       </div>
     </header>
 
     <main class="home-main">
-      <h2 class="section-title">Select a Scene to Explore 🗺️</h2>
+      <h2 class="section-title" data-i18n="section_select_scene">Select a Scene to Explore 🗺️</h2>
       
       <div class="scene-grid" id="scene-grid">
         <!-- Scene cards will be injected dynamically here -->
@@ -82,24 +90,24 @@
     <header class="app-header">
       <div class="header-left">
         <button id="btn-go-home" class="btn btn-secondary">
-          <span>🏠</span> Home
+          <span>🏠</span> <span data-i18n="btn_home">Home</span>
         </button>
         <button id="btn-toggle-sidebar" class="btn btn-secondary" style="display: none;">
-          <span>📖</span> Words
+          <span>📖</span> <span data-i18n="btn_words">Words</span>
         </button>
         <button id="btn-start-quiz-mobile" class="btn btn-primary" style="display: none;" disabled>
-          🔒 Quiz
+          🔒 <span data-i18n="btn_quiz_locked">Quiz</span>
         </button>
         <div class="header-logo-small">
           <h1 id="active-scene-title">The Street</h1>
           <p class="subtitle" id="active-scene-subtitle">ถนน</p>
         </div>
       </div>
-      
+
       <!-- Progress Indicator -->
       <div class="progress-container">
         <div class="progress-bar-wrapper">
-          <div class="progress-text">Scene Progress: <span id="discovered-count">0</span>/<span id="discovered-total">?</span></div>
+          <div class="progress-text"><span data-i18n="scene_progress">Scene Progress:</span> <span id="discovered-count">0</span>/<span id="discovered-total">?</span></div>
           <div class="progress-bar-bg">
             <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
           </div>
@@ -108,14 +116,18 @@
 
       <!-- Action Buttons -->
       <div class="header-actions">
+        <select class="lang-select" title="Language" style="padding: 8px 12px; border-radius: var(--radius-md); border: 2px solid #e2e8f0; font-weight: 600; cursor: pointer; background: white; color: var(--text-dark);">
+          <option value="en">🇬🇧 English</option>
+          <option value="th">🇹🇭 ไทย</option>
+        </select>
         <button id="btn-chatbot" class="btn btn-secondary">
-          <span>🤖</span> Chat
+          <span>🤖</span> <span data-i18n="btn_chat">Chat</span>
         </button>
         <button id="btn-adjust-pins" class="btn btn-secondary hidden" style="background: #2b2d42; color: #4ea8de; border-color: rgba(78,168,222,0.3);">
-          <span>🎯</span> Adjust Pins
+          <span>🎯</span> <span data-i18n="btn_adjust_pins">Adjust Pins</span>
         </button>
         <button id="btn-game-stickers" class="btn btn-secondary">
-          <span>🏆</span> Stickers
+          <span>🏆</span> <span data-i18n="btn_stickers">Stickers</span>
         </button>
       </div>
     </header>
@@ -126,7 +138,7 @@
       <!-- Left Panel: Vocabulary List -->
       <aside class="vocab-sidebar">
         <div class="sidebar-header">
-          <h3>Words in this Scene</h3>
+          <h3 data-i18n="words_in_scene">Words in this Scene</h3>
           <span class="scene-badge" id="sidebar-scene-badge">The Street (ถนน)</span>
         </div>
         <div id="vocab-list" class="vocab-list">
@@ -135,9 +147,9 @@
         <!-- Quiz unlock panel at bottom of sidebar -->
         <div class="quiz-unlock-box">
           <button id="btn-start-quiz" class="btn btn-primary btn-full" disabled>
-            🔒 Unlock Corgi Quiz
+            🔒 <span data-i18n="quiz_locked_default">Unlock Corgi Quiz</span>
           </button>
-          <p class="quiz-tip" id="quiz-tip-text">Find the Corgi and 5 words to unlock!</p>
+          <p class="quiz-tip" id="quiz-tip-text" data-i18n="quiz_tip_default">Find the Corgi and 5 words to unlock!</p>
         </div>
       </aside>
 
@@ -166,7 +178,7 @@
 
         <!-- Tip overlay at the bottom -->
         <div class="game-hint-overlay">
-          <p>💡 Drag to pan · scroll to zoom · click objects to learn!</p>
+          <p data-i18n="viewport_hint">💡 Drag to pan · scroll to zoom · click objects to learn!</p>
         </div>
       </section>
     </main>
@@ -178,17 +190,17 @@
   <div id="chat-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="chat-title">
     <div class="modal-card chat-card animate-pop">
       <div class="chat-header">
-        <h2 id="chat-title">🤖 Chat with AI</h2>
+        <h2 id="chat-title" data-i18n="chat_title">🤖 Chat with AI</h2>
         <button id="btn-close-chat" class="modal-close" aria-label="Close">&times;</button>
       </div>
       <div class="chat-body" id="chat-messages">
         <div class="chat-message assistant">
-          <p>Hi there! I'm your learning assistant. Ask me anything about English, Thai, or this game!</p>
+          <p data-i18n="chat_greeting">Hi there! I'm your learning assistant. Ask me anything about English, Thai, or this game!</p>
         </div>
       </div>
       <div class="chat-footer">
-        <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off">
-        <button id="btn-send-chat" class="btn btn-primary">Send</button>
+        <input type="text" id="chat-input" data-i18n-placeholder="chat_placeholder" placeholder="Type your message..." autocomplete="off">
+        <button id="btn-send-chat" class="btn btn-primary" data-i18n="chat_send">Send</button>
       </div>
     </div>
   </div>
@@ -202,13 +214,13 @@
         <h2 id="vocab-title-en">Fire engine</h2>
         <p id="vocab-phonetic" class="vocab-phonetic">/ˈfaɪər ˌen.dʒɪn/</p>
         <button id="vocab-audio-trigger" class="btn-listen" title="Speak Word">
-          <span class="listen-icon">🔊</span> Listen
+          <span class="listen-icon">🔊</span> <span data-i18n="listen">Listen</span>
         </button>
         <hr class="card-divider">
         <p id="vocab-title-th" class="vocab-title-th">รถดับเพลิง</p>
       </div>
       <div class="vocab-card-footer">
-        <button id="btn-vocab-ok" class="btn btn-primary">Great! 👍</button>
+        <button id="btn-vocab-ok" class="btn btn-primary" data-i18n="great_ok">Great! 👍</button>
       </div>
     </div>
   </div>
@@ -217,10 +229,10 @@
   <div id="corgi-found-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
     <div class="modal-card corgi-found-card animate-pop">
       <div class="corgi-found-emoji">🐕</div>
-      <h2>You found the Corgi!</h2>
-      <p class="modal-subtitle">Bark! Woof! 🎉 Amazing detective work!</p>
-      <p class="corgi-found-desc">You can now unlock the <strong>Corgi Quiz</strong> once you've found 5 words in this scene!</p>
-      <button id="btn-corgi-found-ok" class="btn btn-primary">Yay! 🐾</button>
+      <h2 data-i18n="corgi_found_title">You found the Corgi!</h2>
+      <p class="modal-subtitle" data-i18n="corgi_found_subtitle">Bark! Woof! 🎉 Amazing detective work!</p>
+      <p class="corgi-found-desc" data-i18n-html="corgi_found_desc">You can now unlock the <strong>Corgi Quiz</strong> once you've found 5 words in this scene!</p>
+      <button id="btn-corgi-found-ok" class="btn btn-primary" data-i18n="yay">Yay! 🐾</button>
     </div>
   </div>
 
@@ -229,16 +241,16 @@
     <div class="quiz-container animate-pop">
       <!-- Quiz Header -->
       <div class="quiz-header">
-        <div class="quiz-progress-text">Question <span id="quiz-current-q">1</span>/8</div>
-        <span class="quiz-stars">⭐ <span id="quiz-correct-count">0</span> correct</span>
+        <div class="quiz-progress-text"><span data-i18n="quiz_question_of">Question</span> <span id="quiz-current-q">1</span>/8</div>
+        <span class="quiz-stars">⭐ <span id="quiz-correct-count">0</span> <span data-i18n="quiz_stars_suffix">correct</span></span>
         <button id="btn-exit-quiz" class="modal-close" aria-label="Exit Quiz">&times;</button>
       </div>
 
       <!-- Quiz Body -->
       <div class="quiz-body">
         <div class="corgi-bubble">
-          <p id="quiz-prompt-text">Tap the picture that matches!</p>
-          <button id="btn-quiz-audio" class="btn-listen btn-listen-sm">🔊 Listen</button>
+          <p id="quiz-prompt-text" data-i18n="quiz_default_prompt">Tap the picture that matches!</p>
+          <button id="btn-quiz-audio" class="btn-listen btn-listen-sm">🔊 <span data-i18n="listen">Listen</span></button>
         </div>
         <div id="quiz-mc-options" class="quiz-mc-grid"></div>
       </div>
@@ -254,23 +266,23 @@
     <div class="modal-card quiz-result-card animate-pop">
       <button id="btn-close-result" class="modal-close" aria-label="Close">&#x2715;</button>
       <div id="result-emoji" class="corgi-found-emoji">🎉</div>
-      <h2 id="result-title">You passed!</h2>
+      <h2 id="result-title" data-i18n="result_passed_title">You passed!</h2>
       <div class="result-score-ring">
         <span id="result-score">100%</span>
-        <span class="result-score-label">Score</span>
+        <span class="result-score-label" data-i18n="result_score_label">Score</span>
       </div>
       <p id="result-message" class="modal-subtitle">Great job! Keep it up!</p>
 
       <!-- Sticker unlock banner -->
       <div id="result-sticker-banner" class="sticker-unlock-banner hidden">
-        <span>🏆 New Sticker Unlocked:</span>
+        <span data-i18n="sticker_unlocked">🏆 New Sticker Unlocked:</span>
         <strong id="result-sticker-name">Police Corgi 👮</strong>
       </div>
 
       <div class="result-actions">
-        <button id="btn-result-retry" class="btn btn-secondary">Try Again 🔄</button>
-        <button id="btn-result-explore" class="btn btn-secondary">Keep Exploring 🗺️</button>
-        <button id="btn-result-stickers" class="btn btn-primary">Sticker Book 🏆</button>
+        <button id="btn-result-retry" class="btn btn-secondary" data-i18n="btn_try_again">Try Again 🔄</button>
+        <button id="btn-result-explore" class="btn btn-secondary" data-i18n="btn_keep_exploring">Keep Exploring 🗺️</button>
+        <button id="btn-result-stickers" class="btn btn-primary" data-i18n="btn_sticker_book">Sticker Book 🏆</button>
       </div>
     </div>
   </div>
@@ -279,8 +291,8 @@
   <div id="sticker-book-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
     <div class="modal-card sticker-card animate-pop">
       <button id="btn-close-stickers" class="modal-close" aria-label="Close">&times;</button>
-      <h2>Your Sticker Book 🏆</h2>
-      <p class="modal-subtitle">Complete quizzes to earn Corgi badges!</p>
+      <h2 data-i18n="sticker_book_title">Your Sticker Book 🏆</h2>
+      <p class="modal-subtitle" data-i18n="sticker_book_subtitle">Complete quizzes to earn Corgi badges!</p>
       <div class="sticker-grid" id="sticker-grid"></div>
     </div>
   </div>
@@ -289,16 +301,16 @@
   <div id="parent-gate-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
     <div class="modal-card parent-gate-card animate-pop">
       <button id="btn-close-parent-gate" class="modal-close" aria-label="Close">&times;</button>
-      <h2>Parental Verification 🔒</h2>
-      <p class="gate-desc">Type the numbers shown below (as digits) to continue:</p>
+      <h2 data-i18n="parent_gate_title">Parental Verification 🔒</h2>
+      <p class="gate-desc" data-i18n="parent_gate_desc">Type the numbers shown below (as digits) to continue:</p>
       <div class="gate-challenge">
         <span id="parent-gate-text" class="challenge-text">Three Four Zero Two</span>
       </div>
       <div class="gate-input-wrapper">
-        <input type="text" id="parent-gate-input" placeholder="e.g. 3402" maxlength="4" inputmode="numeric">
-        <button id="btn-parent-gate-submit" class="btn btn-primary">Go →</button>
+        <input type="text" id="parent-gate-input" data-i18n-placeholder="parent_gate_placeholder" placeholder="e.g. 3402" maxlength="4" inputmode="numeric">
+        <button id="btn-parent-gate-submit" class="btn btn-primary" data-i18n="parent_gate_go">Go →</button>
       </div>
-      <p id="parent-gate-error" class="error-text hidden">Oops! That's not right. Try again.</p>
+      <p id="parent-gate-error" class="error-text hidden" data-i18n="parent_gate_error">Oops! That's not right. Try again.</p>
     </div>
   </div>
 
@@ -306,33 +318,33 @@
   <div id="parent-dashboard-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
     <div class="modal-card parent-dash-card animate-pop">
       <button id="btn-close-parent-dash" class="modal-close" aria-label="Close">&times;</button>
-      <h2>Parents Dashboard 📊</h2>
+      <h2 data-i18n="parent_dashboard_title">Parents Dashboard 📊</h2>
       <div class="dash-grid">
         <div class="dash-block">
-          <h3>Progress Summary</h3>
+          <h3 data-i18n="progress_summary">Progress Summary</h3>
           <div class="stats-list">
-            <p>Overall Words Discovered: <strong id="dash-words-found">0/75</strong></p>
-            <p>Scenes Fully Cleared: <strong id="dash-scenes-cleared">0/6</strong></p>
-            <p>Quiz Completed: <strong id="dash-quiz-completed">0 times</strong></p>
-            <p>Stickers Earned: <strong id="dash-stickers-count">0/6</strong></p>
+            <p><span data-i18n="overall_words">Overall Words Discovered:</span> <strong id="dash-words-found">0/75</strong></p>
+            <p><span data-i18n="scenes_cleared">Scenes Fully Cleared:</span> <strong id="dash-scenes-cleared">0/6</strong></p>
+            <p><span data-i18n="quiz_completed">Quiz Completed:</span> <strong id="dash-quiz-completed">0 times</strong></p>
+            <p><span data-i18n="stickers_earned">Stickers Earned:</span> <strong id="dash-stickers-count">0/6</strong></p>
           </div>
         </div>
         <div class="dash-block">
-          <h3>Words to Review</h3>
-          <p class="review-desc">Words missed in quizzes — worth practising!</p>
+          <h3 data-i18n="words_to_review">Words to Review</h3>
+          <p class="review-desc" data-i18n="review_desc">Words missed in quizzes — worth practising!</p>
           <ul id="parent-review-list" class="review-list">
-            <li class="empty-list">No review words yet! Keep it up.</li>
+            <li class="empty-list" data-i18n="no_review_words">No review words yet! Keep it up.</li>
           </ul>
         </div>
       </div>
       <div class="dash-footer" style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; align-items: center; width: 100%;">
         <div style="display: flex; gap: 8px;">
-          <a href="/admin.html" class="btn btn-secondary" style="background: #2b2d42; color: #ffd166; border-color: rgba(255,209,102,0.3);">⚙️ Image Manager</a>
-          <a href="/calibrate.html" class="btn btn-secondary" style="background: #2b2d42; color: #4ea8de; border-color: rgba(78,168,222,0.3);">🎯 Calibrate Pins</a>
+          <a href="/admin.html" class="btn btn-secondary" style="background: #2b2d42; color: #ffd166; border-color: rgba(255,209,102,0.3);" data-i18n="image_manager">⚙️ Image Manager</a>
+          <a href="/calibrate.html" class="btn btn-secondary" style="background: #2b2d42; color: #4ea8de; border-color: rgba(78,168,222,0.3);" data-i18n="calibrate_pins">🎯 Calibrate Pins</a>
         </div>
         <div style="display: flex; gap: 8px;">
-          <button id="btn-reset-data" class="btn btn-danger">Reset Progress</button>
-          <button id="btn-parent-dash-close" class="btn btn-secondary">Close</button>
+          <button id="btn-reset-data" class="btn btn-danger" data-i18n="btn_reset_progress">Reset Progress</button>
+          <button id="btn-parent-dash-close" class="btn btn-secondary" data-i18n="btn_close">Close</button>
         </div>
       </div>
     </div>
@@ -341,11 +353,11 @@
   <!-- 8. Reset Confirmation Modal -->
   <div id="reset-confirm-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
     <div class="modal-card reset-confirm-card animate-pop">
-      <h2>⚠️ Reset All Progress?</h2>
-      <p class="modal-subtitle">This will erase all discovered words, quiz history, and sticker achievements across all scenes. This cannot be undone!</p>
+      <h2 data-i18n="reset_confirm_title">⚠️ Reset All Progress?</h2>
+      <p class="modal-subtitle" data-i18n="reset_confirm_desc">This will erase all discovered words, quiz history, and sticker achievements across all scenes. This cannot be undone!</p>
       <div class="result-actions">
-        <button id="btn-reset-cancel" class="btn btn-secondary">Cancel</button>
-        <button id="btn-reset-confirm" class="btn btn-danger">Yes, Reset</button>
+        <button id="btn-reset-cancel" class="btn btn-secondary" data-i18n="btn_cancel">Cancel</button>
+        <button id="btn-reset-confirm" class="btn btn-danger" data-i18n="btn_yes_reset">Yes, Reset</button>
       </div>
     </div>
   </div>

@@ -5,6 +5,7 @@
 
 import { gameState, sceneRef } from './state.js';
 import { saveProgress, openModal, closeModal, speakWord, triggerConfetti } from './app.js';
+import { t } from './i18n.js';
 
 // ─── QUIZ STATE ───────────────────────────────────────────────────────────────
 let quizQuestions        = [];
@@ -167,7 +168,7 @@ function renderQuizQuestion() {
   mcGrid.innerHTML = "";
 
   if (variant === 1) {
-    promptEl.innerHTML = `Tap the picture that matches the audio:`;
+    promptEl.innerHTML = t('quiz_prompt_listen');
     audioBtn.style.display = "inline-flex";
     audioBtn.addEventListener("click", () => speakWord(q.wordEn));
     setTimeout(() => speakWord(q.wordEn), 500);
@@ -182,7 +183,7 @@ function renderQuizQuestion() {
     });
 
   } else if (variant === 2) {
-    promptEl.innerHTML = `What is <span style="color:var(--secondary);font-weight:800;">"${q.wordTh}"</span> in English?`;
+    promptEl.innerHTML = t('quiz_prompt_what_is', { word: `<span style="color:var(--secondary);font-weight:800;">${q.wordTh}</span>` });
     audioBtn.style.display = "none";
 
     options.forEach(opt => {
@@ -196,7 +197,7 @@ function renderQuizQuestion() {
     });
 
   } else {
-    promptEl.innerHTML = `🐾 Corgi says: "Where is the <strong style="color:var(--primary);">${q.wordEn}</strong>?"`;
+    promptEl.innerHTML = t('quiz_prompt_corgi_says', { word: `<strong style="color:var(--primary);">${q.wordEn}</strong>` });
     audioBtn.style.display = "inline-flex";
     audioBtn.addEventListener("click", () => speakWord(`Where is the ${q.wordEn}`));
     setTimeout(() => speakWord(`Where is the ${q.wordEn}`), 500);
@@ -238,7 +239,7 @@ function handleAnswer(isCorrect, clickedCard) {
     clickedCard.style.borderColor     = "var(--success)";
     clickedCard.style.backgroundColor = "var(--success-light)";
     playSynthSound("correct");
-    fbText.textContent = "Excellent! 🎉";
+    fbText.textContent = t('quiz_feedback_correct');
     fb.className = "quiz-feedback-banner correct";
 
   } else {
@@ -257,7 +258,7 @@ function handleAnswer(isCorrect, clickedCard) {
     });
 
     playSynthSound("incorrect");
-    fbText.textContent = "Oops! Check the correct answer above.";
+    fbText.textContent = t('quiz_feedback_incorrect');
     fb.className = "quiz-feedback-banner incorrect";
   }
 
@@ -311,21 +312,21 @@ export function finishQuiz() {
 
 function showQuizResult({ pct, passed, correct, total, newSticker }) {
   const STICKER_NAMES = {
-    police: "Police Corgi 👮",
-    fire:   "Firefighter Corgi 🚒",
-    chef:   "Chef Corgi 👨‍🍳",
-    doctor: "Doctor Corgi 🩺",
-    astronaut: "Astronaut Corgi 🚀",
-    explorer:  "Explorer Corgi 🤠"
+    police: t('sticker_police'),
+    fire:   t('sticker_fire'),
+    chef:   t('sticker_chef'),
+    doctor: t('sticker_doctor'),
+    astronaut: t('sticker_astronaut'),
+    explorer:  t('sticker_explorer')
   };
 
   document.getElementById("result-emoji").textContent   = passed ? "🎉" : "👍";
-  document.getElementById("result-title").textContent   = passed ? "You passed!" : "Good effort!";
+  document.getElementById("result-title").textContent   = passed ? t('result_passed_title') : t('result_failed_title');
   document.getElementById("result-score").textContent   = `${pct}%`;
   document.getElementById("result-message").textContent =
     passed
-      ? `Brilliant! ${correct}/${total} correct — keep exploring!`
-      : `You got ${correct}/${total}. Practise a few more words and try again!`;
+      ? t('result_passed_msg', { correct, total })
+      : t('result_failed_msg', { correct, total });
 
   const banner     = document.getElementById("result-sticker-banner");
   const retryBtn   = document.getElementById("btn-result-retry");

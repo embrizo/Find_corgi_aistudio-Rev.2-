@@ -9,6 +9,7 @@ import { auth, db, signInWithGoogle, signInWithGoogleRedirect, signInAsGuest, lo
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, setDoc, getDoc, serverTimestamp, collection, getDocs } from 'firebase/firestore';
 import { initChat } from './chat.js';
+import { t, getLang, initLangSelector, onLangChange } from './i18n.js';
 
 // ─── 1. ACTIVE SCENE accessor (reads/writes sceneRef.active) ─────────────────
 // quiz.js also imports sceneRef from state.js — no circular dependency.
@@ -135,11 +136,31 @@ function speakWord(text) {
 // ─── 4. INIT ──────────────────────────────────────────────────────────────────
 let currentUserUid = null;
 let sceneConfigs = {};
+let currentWelcomeName = null;
 document.addEventListener("DOMContentLoaded", () => {
   initSpeech();
   initViewport();
   setupEventListeners();
   initChat();
+  initLangSelector();
+
+  onLangChange(() => {
+    const homeScreen = document.getElementById("home-screen");
+    const gameScreen = document.getElementById("game-screen");
+    if (homeScreen && !homeScreen.classList.contains("hidden")) window.renderHomeScreen();
+    if (gameScreen && !gameScreen.classList.contains("hidden")) {
+      renderSidebar();
+      updateProgressUI();
+    }
+    const welcomeEl = document.getElementById('user-welcome');
+    if (welcomeEl && currentWelcomeName) {
+      welcomeEl.textContent = t('welcome_message', { name: currentWelcomeName });
+    }
+    const stickerModal = document.getElementById('sticker-book-modal');
+    if (stickerModal && !stickerModal.classList.contains('hidden')) {
+      renderStickerBook();
+    }
+  });
 
   document.getElementById('btn-login-google').addEventListener('click', () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -194,7 +215,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const welcomeEl = document.getElementById('user-welcome');
     if (welcomeEl) {
-      welcomeEl.textContent = `Welcome, ${user.isAnonymous ? 'Guest' : (user.displayName || 'Explorer')}! 🐾`;
+      currentWelcomeName = user.isAnonymous ? 'Guest' : (user.displayName || 'Explorer');
+      welcomeEl.textContent = t('welcome_message', { name: currentWelcomeName });
     }
 
     // Save user to Firestore
@@ -317,7 +339,7 @@ window.renderHomeScreen = function renderHomeScreen() {
     const count = discovered.length;
     const total = scene.vocabulary.length;
     const cleared = isSceneCleared(scene.id);
-    const corgiBadge = gameState.corgiFound[scene.id] ? "🐕 Found!" : "🐾 Hidden";
+    const corgiBadge = gameState.corgiFound[scene.id] ? t('corgi_badge_found') : t('corgi_badge_hidden');
 
     const card = document.createElement("div");
     card.className = "scene-card";
@@ -328,21 +350,21 @@ window.renderHomeScreen = function renderHomeScreen() {
           <span style="font-size: 32px; margin-bottom: 8px;">🖼️</span>
           <span>${scene.nameEn}</span>
         </div>
-        <span class="scene-card-progress">${count}/${total} Words</span>
+        <span class="scene-card-progress">${t('scene_words_count', { count, total })}</span>
       </div>
       <div class="scene-card-body">
         <div class="scene-card-title">
           <span>${scene.nameEn}</span>
           <span class="th">${scene.nameTh}</span>
         </div>
-        <p class="scene-card-desc">${scene.desc}</p>
+        <p class="scene-card-desc">${getLang() === 'th' ? (scene.descTh || scene.desc) : scene.desc}</p>
         <div style="font-size: 11px; margin-top: 10px; font-weight:600; display:flex; gap:12px; color:var(--text-muted);">
           <span>${corgiBadge}</span>
-          ${cleared ? '<span style="color:var(--success)">⭐ Complete!</span>' : ''}
+          ${cleared ? `<span style="color:var(--success)">${t('scene_complete')}</span>` : ''}
         </div>
       </div>
       <div class="scene-card-footer">
-        <button class="btn btn-primary btn-full" onclick="loadScene('${scene.id}')">Explore 🐾</button>
+        <button class="btn btn-primary btn-full" onclick="loadScene('${scene.id}')">${t('btn_explore')}</button>
       </div>
     `;
     grid.appendChild(card);
@@ -476,8 +498,8 @@ function renderSidebar() {
         <span class="word-thai">${discovered ? item.wordTh : "???"}</span>
       </div>
       <div class="word-actions">
-        <button class="btn-sidebar-icon" data-action="speak" data-word="${item.wordEn}" title="Hear English">🔊</button>
-        <button class="btn-sidebar-icon" data-action="hint"  data-id="${item.id}"       title="Show Hint">💡</button>
+        <button class="btn-sidebar-icon" data-action="speak" data-word="${item.wordEn}" title="${t('hear_english')}">🔊</button>
+        <button class="btn-sidebar-icon" data-action="hint"  data-id="${item.id}"       title="${t('show_hint')}">💡</button>
       </div>`;
 
     card.addEventListener("click", e => {
@@ -703,33 +725,36 @@ function updateProgressUI() {
   if (btn) btn.disabled = !ready;
   if (btnMob) btnMob.disabled = !ready;
 
+  const remaining = needed - count;
+  const plural = remaining !== 1 ? "s" : "";
+
   if (ready) {
-    if (btn) btn.innerHTML = "🏁 Start Corgi Quiz!";
-    if (btnMob) btnMob.innerHTML = "🏁 Quiz!";
-    if (tipEl) tipEl.textContent = "You're ready! Take the quiz 🎉";
+    if (btn) btn.innerHTML = t('quiz_btn_ready');
+    if (btnMob) btnMob.innerHTML = t('quiz_btn_ready_mobile');
+    if (tipEl) tipEl.textContent = t('quiz_tip_ready');
   } else if (!isCorgiFound && count < needed) {
-    if (btn) btn.innerHTML = "🔒 Unlock Corgi Quiz";
-    if (btnMob) btnMob.innerHTML = "🔒 Quiz";
-    if (tipEl) tipEl.textContent = `Find the Corgi & ${needed - count} more word${needed - count !== 1 ? "s" : ""}!`;
+    if (btn) btn.innerHTML = t('quiz_btn_locked');
+    if (btnMob) btnMob.innerHTML = `🔒 ${t('btn_quiz_locked')}`;
+    if (tipEl) tipEl.textContent = t('quiz_tip_need_words', { n: remaining, s: plural });
   } else if (!isCorgiFound) {
-    if (btn) btn.innerHTML = "🔒 Find the hidden Corgi";
-    if (btnMob) btnMob.innerHTML = "🔒 Quiz";
-    if (tipEl) tipEl.textContent = "Almost there — find the Corgi!";
+    if (btn) btn.innerHTML = t('quiz_btn_find_corgi');
+    if (btnMob) btnMob.innerHTML = `🔒 ${t('btn_quiz_locked')}`;
+    if (tipEl) tipEl.textContent = t('quiz_tip_find_corgi');
   } else {
-    if (btn) btn.innerHTML = `🔒 Find ${needed - count} more word${needed - count !== 1 ? "s" : ""}`;
-    if (btnMob) btnMob.innerHTML = "🔒 Quiz";
-    if (tipEl) tipEl.textContent = `Discover ${needed - count} more word${needed - count !== 1 ? "s" : ""} to unlock!`;
+    if (btn) btn.innerHTML = t('quiz_btn_find_more', { n: remaining, s: plural });
+    if (btnMob) btnMob.innerHTML = `🔒 ${t('btn_quiz_locked')}`;
+    if (tipEl) tipEl.textContent = t('quiz_tip_find_more', { n: remaining, s: plural });
   }
 }
 
 // ─── 13. STICKER BOOK ────────────────────────────────────────────────────────
 export const STICKERS = [
-  { id: "police", title: "Police Corgi", emoji: "👮", image: "assets/sticker/police_corgi.png" },
-  { id: "fire", title: "Firefighter Corgi", emoji: "🚒", image: "assets/sticker/fire_corgi.png" },
-  { id: "chef", title: "Chef Corgi", emoji: "👨‍🍳" },
-  { id: "doctor", title: "Doctor Corgi", emoji: "🩺" },
-  { id: "astronaut", title: "Astronaut Corgi", emoji: "🚀" },
-  { id: "explorer", title: "Explorer Corgi", emoji: "🤠" }
+  { id: "police", titleKey: "sticker_police", emoji: "👮", image: "assets/sticker/police_corgi.png" },
+  { id: "fire", titleKey: "sticker_fire", emoji: "🚒", image: "assets/sticker/fire_corgi.png" },
+  { id: "chef", titleKey: "sticker_chef", emoji: "👨‍🍳" },
+  { id: "doctor", titleKey: "sticker_doctor", emoji: "🩺" },
+  { id: "astronaut", titleKey: "sticker_astronaut", emoji: "🚀" },
+  { id: "explorer", titleKey: "sticker_explorer", emoji: "🤠" }
 ];
 
 // SCENE_STICKERS is loaded from quiz.js asynchronously to avoid circular dependency.
@@ -762,9 +787,10 @@ async function renderStickerBook() {
     slot.className = `sticker-slot ${unlocked ? "" : "locked"}`;
     slot.dataset.sticker = sticker.id;
 
+    const stickerTitle = t(sticker.titleKey);
     let mediaHtml = "";
     if (sticker.image) {
-      mediaHtml = `<img src="${resolveAssetUrl(sticker.image)}" alt="${sticker.title}">`;
+      mediaHtml = `<img src="${resolveAssetUrl(sticker.image)}" alt="${stickerTitle}">`;
     } else {
       mediaHtml = `<span class="sticker-emoji-placeholder">${sticker.emoji}</span>`;
     }
@@ -778,8 +804,8 @@ async function renderStickerBook() {
       <div class="sticker-wrapper" title="${sceneStatusList}">
         ${mediaHtml}
       </div>
-      <span class="sticker-title">${sticker.title}</span>
-      <span class="sticker-progress">${completedCount}/${totalCount} Scenes</span>
+      <span class="sticker-title">${stickerTitle}</span>
+      <span class="sticker-progress">${t('sticker_scenes_count', { completed: completedCount, total: totalCount })}</span>
     `;
 
     grid.appendChild(slot);
